@@ -21,7 +21,7 @@ Börja med att läsa igenom hela uppgiften, sedan hittar du länk till ett kodpr
 - [ ] Spelaren ska börja nära mitten av rummet.
 - [ ] Förflyttningar i alla 4 riktningar. (Med tangenterna WASD.)
 - [ ] Man ska inte kunna gå igenom väggar.
-- [ ] Fruktsallad - alla frukter ska vara värda 20 poäng i stället för 10.
+- [X] Fruktsallad - alla frukter ska vara värda 20 poäng i stället för 10.
 - [ ] Inventory - alla saker som man plockar upp ska sparas i en lista.
 - [ ] Nytt kommando: "i", skriver ut innehållet i spelarens inventory.
 - [ ] The floor is lava - för varje steg man går ska man tappa 1 poäng.
