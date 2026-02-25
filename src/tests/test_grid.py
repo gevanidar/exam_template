@@ -1,5 +1,5 @@
 import unittest
-from grid import Grid
+from grid import Grid, Unit
 
 
 class TestGrid(unittest.TestCase):
@@ -8,7 +8,7 @@ class TestGrid(unittest.TestCase):
         g = Grid()
         x = 2
         y = 2
-        g.set(x, y, g.wall)
+        g.set(x, y, Unit.WALL)
         is_obstacle = g.is_obstacle(x, y)
 
         self.assertEqual(True, is_obstacle)

@@ -36,9 +36,9 @@ while command.casefold() not in ["q", "x"]:
 
         if isinstance(maybe_item, pickups.Item):
             # we found something
-            score += maybe_item.value
-            print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
-            # g.set(player.pos_x, player.pos_y, g.empty)
+            score += maybe_item.points
+            print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
+            # g.set(player.pos_x, player.pos_y, Unit.EMPTY)
             g.clear(player.pos_x, player.pos_y)
 
 

@@ -1,11 +1,15 @@
+from .grid import Unit
+
+
 class Item:
-    valude = 20
+    points = 20
 
     """Representerar saker man kan plocka upp."""
 
-    def __init__(self, name, symbol="?"):
+    def __init__(self, name, unit=Unit.ITEM):
         self.name = name
-        self.symbol = symbol
+        self.unit = unit
+        self.value = unit.value
 
     def __str__(self):
         return self.symbol

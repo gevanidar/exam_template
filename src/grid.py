@@ -1,4 +1,11 @@
 import random
+from enum import Enum
+
+
+class Unit(Enum):
+    EMPTY = "."  # Tecken för en tom ruta
+    WALL = "■"  # Tecken för en ogenomtränglig vägg
+    ITEM = "?"
 
 
 class Grid:
@@ -6,14 +13,12 @@ class Grid:
 
     width = 36
     height = 12
-    empty = "."  # Tecken för en tom ruta
-    wall = "■"  # Tecken för en ogenomtränglig vägg
 
     def __init__(self):
         """Skapa ett objekt av klassen Grid"""
         # Spelplanen lagras i en lista av listor. Vi använder "list comprehension" för att sätta tecknet för "empty" på varje plats på spelplanen.
         self.data = [
-            [self.empty for y in range(self.width)] for z in range(self.height)
+            [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
 
     def get(self, x, y):
@@ -29,7 +34,7 @@ class Grid:
 
     def clear(self, x, y):
         """Ta bort item från position"""
-        self.set(x, y, self.empty)
+        self.set(x, y, Unit.EMPTY)
 
     def __str__(self):
         """Gör så att vi kan skriva ut spelplanen med print(grid)"""
@@ -40,19 +45,19 @@ class Grid:
                 if x == self.player.pos_x and y == self.player.pos_y:
                     xs += "@"
                 else:
-                    xs += str(row[x])
+                    xs += str(row[x].value)
             xs += "\n"
         return xs
 
     def make_walls(self):
         """Skapa väggar runt hela spelplanen"""
         for i in range(self.height):
-            self.set(0, i, self.wall)
-            self.set(self.width - 1, i, self.wall)
+            self.set(0, i, Unit.WALL)
+            self.set(self.width - 1, i, Unit.WALL)
 
         for j in range(1, self.width - 1):
-            self.set(j, 0, self.wall)
-            self.set(j, self.height - 1, self.wall)
+            self.set(j, 0, Unit.WALL)
+            self.set(j, self.height - 1, Unit.WALL)
 
     # Används i filen pickups.py
     def get_random_x(self):
@@ -65,9 +70,8 @@ class Grid:
 
     def is_empty(self, x, y):
         """Returnerar True om det inte finns något på aktuell ruta"""
-        return self.get(x, y) == self.empty
+        return self.get(x, y) == Unit.EMPTY
 
     def is_obstacle(self, x, y):
         """Returnerar True if the position contains and obstacle"""
-        # TODO: Add test case
-        return None
+        return self.get(x, y) == Unit.WALL
