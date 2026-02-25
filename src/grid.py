@@ -66,3 +66,8 @@ class Grid:
     def is_empty(self, x, y):
         """Returnerar True om det inte finns något på aktuell ruta"""
         return self.get(x, y) == self.empty
+
+    def is_obstacle(self, x, y):
+        """Returnerar True if the position contains and obstacle"""
+        # TODO: Add test case
+        return None
