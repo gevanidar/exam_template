@@ -3,7 +3,6 @@ from .player import Player
 from . import pickups
 
 
-
 player = Player(2, 1)
 score = 0
 inventory = []
@@ -39,7 +38,7 @@ while not command.casefold() in ["q", "x"]:
             # we found something
             score += maybe_item.value
             print(f"You found a {maybe_item.name}, +{maybe_item.value} points.")
-            #g.set(player.pos_x, player.pos_y, g.empty)
+            # g.set(player.pos_x, player.pos_y, g.empty)
             g.clear(player.pos_x, player.pos_y)
 
 

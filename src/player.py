@@ -15,6 +15,4 @@ class Player:
 
     def can_move(self, x, y, grid):
         return True
-        #TODO: returnera True om det inte står något i vägen
-
-
+        # TODO: returnera True om det inte står något i vägen
