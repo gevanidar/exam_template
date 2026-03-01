@@ -10,6 +10,9 @@ from item import Item
 from direction import Direction
 from bomb import Bomb
 
+from gamestate import GameState
+from input import Input
+
 
 class Input(Enum):
     """
