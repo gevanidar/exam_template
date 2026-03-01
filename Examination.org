@@ -19,7 +19,7 @@ Börja med att läsa igenom hela uppgiften, sedan hittar du länk till ett kodpr
 
 ## Version 1 - grundkrav
 - [ ] Spelaren ska börja nära mitten av rummet.
-- [ ] Förflyttningar i alla 4 riktningar. (Med tangenterna WASD.)
+- [X] Förflyttningar i alla 4 riktningar. (Med tangenterna WASD.)
 - [X] Man ska inte kunna gå igenom väggar.
 - [X] Fruktsallad - alla frukter ska vara värda 20 poäng i stället för 10.
 - [ ] Inventory - alla saker som man plockar upp ska sparas i en lista.
@@ -40,7 +40,7 @@ Börja med att läsa igenom hela uppgiften, sedan hittar du länk till ett kodpr
 - [ ] AI-fiender - placera 1-3 fiender på kartan. För varje steg spelaren tar ska ska varje fiende ha en slumpmässig chans att flytta sig ett steg närmare spelaren. Minus 20 poäng om en fiende hinner ifatt. (Inte diagonalt, dvs. samma rörelsemönster som spelaren. Fienderna ska vara lite "långsammare" så att det är lagom svårt att undvika dem.)
 - [ ] Tryck "B" för att placera en bomb. Efter 3 drag smäller bomben och förstör allt på sin ruta och de åtta som gränsar till den. (fällor, väggar, m.m.) Om spelaren är kvar förlorar man poäng.
 - [ ] Ett nytt kommando ("T" för trap) för att desarmera fällor.
-- [ ] Använd TDD för att testa några av funktionerna i koden.
+- [w] Använd TDD för att testa några av funktionerna i koden.
 
 ## Extra
 Tyvärr finns det inget enkelt, plattformsoberoende sätt att läsa in ett tecken från användaren, utan att man måste trycka Enter. Paketet "curses" är ett avancerat och kraftfullt bibliotek för att styra terminalen i detalj. På Windows kan man använda msvcrt.getch() och på Linux/macOS en kombination av tty och termios. Vill du utmana dig själv ytterligare kan du prova någon av de teknikerna.
