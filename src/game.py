@@ -18,6 +18,7 @@ class Input(Enum):
 
 class Game:
     def __init__(self):
+        """Initialize the game."""
         g = Grid()
         width, height = g.size()
         assert width > 10
@@ -37,7 +38,9 @@ class Game:
         self.player = player
         self.score = 0
 
-    def move(self, direction: Direction):
+    def move_player(self, direction: Direction):
+        """Move the player on the grid in the direction\n
+        direction = the direction to move the player"""
         dir = direction.value
         new_pos = (self.player.pos_x + dir[0], self.player.pos_y + dir[1])
         if not self.player.can_move(direction, self.grid):
@@ -56,22 +59,21 @@ class Game:
             self.grid.clear(self.player.pos_x, self.player.pos_y)
         return None
 
+    # TODO: flytta denna till en annan fil
+    def print_status(self):
+        """Visa spelvärlden och antal poäng."""
+        print("--------------------------------------")
+        print(f"You have {self.score} points.")
+        print(self.grid)
+
 
 game = Game()
-
-
-# TODO: flytta denna till en annan fil
-def print_status(game: Game):
-    """Visa spelvärlden och antal poäng."""
-    print("--------------------------------------")
-    print(f"You have {game.score} points.")
-    print(game.grid)
 
 
 command = "a"
 # Loopa tills användaren trycker Q eller X.
 while command.casefold() not in ["q", "x"]:
-    print_status(game)
+    game.print_status()
 
     commands = input("Use WASD to move, Q/X to quit. ")
     commands = commands.casefold()
@@ -82,13 +84,13 @@ while command.casefold() not in ["q", "x"]:
         print(f"Processing command {command}")
         match command:
             case Input.NORTH.value:
-                game.move(Direction.NORTH)
+                game.move_player(Direction.NORTH)
             case Input.EAST.value:
-                game.move(Direction.EAST)
+                game.move_player(Direction.EAST)
             case Input.SOUTH.value:
-                game.move(Direction.SOUTH)
+                game.move_player(Direction.SOUTH)
             case Input.WEST.value:
-                game.move(Direction.WEST)
+                game.move_player(Direction.WEST)
             case "i":
                 print(game.player.inventory)
 
