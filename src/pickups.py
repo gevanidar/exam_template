@@ -15,15 +15,24 @@ pickups = [
 
 
 def randomize(grid: Grid):
+    """
+    TODO: ADD DOCSTRING
+    """
     for item in pickups:
         add_pickup(grid, item)
 
 
 def add_random_pickup(grid: Grid):
+    """
+    TODO: ADD DOCSTRING
+    """
     add_pickup(grid, pickups[random.randint(0, len(pickups) - 1)])
 
 
 def add_pickup(grid: Grid, item: Item):
+    """
+    TODO: ADD DOCSTRING
+    """
     while True:
         x = grid.get_random_x()
         y = grid.get_random_y()

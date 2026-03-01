@@ -16,6 +16,9 @@ class Grid:
         ]
 
     def size(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         return self.width, self.height
 
     def get(self, x, y):
@@ -31,9 +34,15 @@ class Grid:
         self.data[y][x] = value
 
     def set_player(self, player):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.player = player
 
     def destroy(self, x, y):
+        """
+        TODO: ADD DOCSTRING
+        """
         if not self.boundary_check(x, y):
             return
         unit = self.get(x, y)
@@ -49,6 +58,9 @@ class Grid:
         self.set(x, y, Unit.EMPTY)
 
     def boundary_check(self, x, y):
+        """
+        TODO: ADD DOCSTRING
+        """
         return x >= 0 and x < self.width and y >= 0 and y < self.height
 
     def __str__(self):
@@ -86,7 +98,9 @@ class Grid:
         self.clear(8, self.height - 1)
 
     def make_room(self, start_x, start_y, stop_x, stop_y):
-        """Create a room starting at start_x, start_y"""
+        """
+        TODO: ADD DOCSTRING
+        """
         for y in range(start_y, stop_y):
             if self.is_empty(start_x, y):
                 self.set(start_x, y, Unit.WALL)

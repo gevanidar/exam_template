@@ -6,15 +6,25 @@ from item import Item
 
 
 class Player:
+    """
+    TODO: ADD DOCSTRING
+    """
+
     marker = Unit.PLAYER
 
     def __init__(self, x, y):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.pos_x = x
         self.pos_y = y
         self.inventory = Inventory()
         self.is_jumping = False
 
     def __str__(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         return self.marker.value
 
     # Flyttar spelaren. "dx" och "dy" är skillnaden
@@ -40,11 +50,20 @@ class Player:
         return True
 
     def get_inventory(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         return self.inventory.get_items()
 
     def add_to_inventory(self, item: Item):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.inventory.add(item)
         print(f"You found a {item.name}, +{item.points} points.")
 
     def activate_jump(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.is_jumping = True

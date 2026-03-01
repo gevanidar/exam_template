@@ -11,6 +11,10 @@ from bomb import Bomb
 
 
 class Input(Enum):
+    """
+    TODO: ADD DOCSTRING
+    """
+
     NORTH = "w"
     EAST = "d"
     SOUTH = "s"
@@ -26,12 +30,20 @@ class Input(Enum):
 
 
 class State(Enum):
-    RUNNING = "RUNNING"
+    """
+    TODO: ADD DOCSTRING
+    """
+
+    ACTIVE = "ACTIVE"
     QUIT = "QUIT"
     LOSS = "LOSS"
 
 
 class Game:
+    """
+    TODO: ADD DOCSTRING
+    """
+
     def __init__(self):
         """Initialize the game."""
         g = Grid()
@@ -57,15 +69,21 @@ class Game:
         self.grid = g
         self.player = player
         self.score = 0
-        self.state = State.RUNNING
+        self.state = State.ACTIVE
         self.turn = 0
         self.refresh_rate = 25
         self.bombs = []
 
     def place_bomb(self, bomb: Bomb):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.bombs.append(bomb)
 
     def check_bombs(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         index_to_remove = -1
         for index in range(len(self.bombs)):
             bomb: Bomb = self.bombs[index]
@@ -77,7 +95,7 @@ class Game:
         if index_to_remove == -1:
             return
         bomb = self.bombs[index_to_remove]
-        print("Bomb is about to explode")
+        print("KABOOM!")
         self.bombs.remove(bomb)
 
         self.grid.clear(bomb.x, bomb.y)
@@ -99,6 +117,9 @@ class Game:
         self.state = State.LOSS
 
     def move_player(self, direction: Direction):
+        """
+        TODO: ADD DOCSTRING
+        """
         """Move the player on the grid in the direction\n
         direction = the direction to move the player"""
         dir = direction.value
@@ -135,6 +156,9 @@ class Game:
             self.move_player(direction)
 
     def apply_lava(self):
+        """
+        TODO: ADD DOCSTRING
+        """
         self.score -= 1
 
     # TODO: flytta denna till en annan fil
@@ -145,7 +169,10 @@ class Game:
         print(self.grid)
 
     def start(self):
-        while State.RUNNING == self.state:
+        """
+        TODO: ADD DOCSTRING
+        """
+        while State.ACTIVE == self.state:
             self.print_status()
 
             commands = input(
@@ -153,7 +180,7 @@ class Game:
             )
             commands = commands.casefold()
             for i in range(len(commands)):
-                if self.state != State.RUNNING:
+                if self.state != State.ACTIVE:
                     break
                 command = commands[i]
 
