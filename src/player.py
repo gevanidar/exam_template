@@ -1,4 +1,4 @@
-from .unit import Unit
+from unit import Unit
 
 
 class Player:
@@ -20,5 +20,7 @@ class Player:
         self.pos_y += dy
 
     def can_move(self, x, y, grid):
+        unit = grid.get(x, y)
+        if unit == Unit.WALL:
+            return False
         return True
-        # TODO: returnera True om det inte står något i vägen

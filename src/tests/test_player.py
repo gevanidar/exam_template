@@ -1,5 +1,6 @@
 import unittest
-from grid import Grid, Unit
+from grid import Grid
+from unit import Unit
 from player import Player
 
 
@@ -13,6 +14,6 @@ class TestGrid(unittest.TestCase):
         g.set(x, y, Unit.WALL)
         g.set_player(player)
 
-        moved = player.move(0, 1)
+        moved = player.can_move(2, 2, g)
 
         self.assertEqual(False, moved)

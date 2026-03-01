@@ -1,5 +1,5 @@
 import random
-from .unit import Unit
+from unit import Unit
 
 
 class Grid:

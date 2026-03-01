@@ -1,7 +1,6 @@
-from .grid import Grid
-from .player import Player
-from . import pickups
-
+from grid import Grid
+from player import Player
+from pickups import pickups
 
 player = Player(2, 1)
 score = 0
