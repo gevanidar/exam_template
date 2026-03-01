@@ -11,13 +11,18 @@ class Grid:
     height = 12
 
     def __init__(self):
-        """Skapa ett objekt av klassen Grid"""
-        # Spelplanen lagras i en lista av listor. Vi använder "list comprehension" för att sätta tecknet för "empty" på varje plats på spelplanen.
+        """Create an empty grid"""
         self.data = [
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
 
     def randomized_empty_position(self, x_min, y_min, x_max, y_max):
+        """Get an empty position (x,y) from the grid.\n
+        x_min= the min x value to select from.\n
+        y_min= the min y value to select from.\n
+        x_max= the max x value to select from.\n
+        y_max= the max y value to select from.\n
+        Return: The position (x,y)"""
         assert self.boundary_check(x_min, y_min)
         assert self.boundary_check(x_max, y_max)
         x = 0
