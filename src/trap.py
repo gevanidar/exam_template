@@ -18,5 +18,7 @@ class Trap:
         self.value = unit.value
 
     def __str__(self):
-        """ """
+        """
+        Gives the string representation of the Trap.
+        """
         return self.unit
