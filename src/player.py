@@ -7,14 +7,16 @@ from item import Item
 
 class Player:
     """
-    TODO: ADD DOCSTRING
+    The player class
     """
 
     marker = Unit.PLAYER
 
     def __init__(self, x, y):
         """
-        TODO: ADD DOCSTRING
+        Initialize the player at position (x,y). WIth an empty inventory.\n
+        x= The horizontal position.\n
+        y= The vertical position.\n
         """
         self.pos_x = x
         self.pos_y = y
@@ -23,7 +25,7 @@ class Player:
 
     def __str__(self):
         """
-        TODO: ADD DOCSTRING
+        The representaton for the player, used to be displayed on the grid.
         """
         return self.marker.value
 
@@ -51,19 +53,21 @@ class Player:
 
     def get_inventory(self):
         """
-        TODO: ADD DOCSTRING
+        Get the player inventory.\n
+        Return: The items in the players inventory.
         """
         return self.inventory.get_items()
 
     def add_to_inventory(self, item: Item):
         """
-        TODO: ADD DOCSTRING
+        Att an item to the players inventory.\n
+        item= The item to add to the player inventory.
         """
         self.inventory.add(item)
         print(f"You found a {item.name}, +{item.points} points.")
 
     def activate_jump(self):
         """
-        TODO: ADD DOCSTRING
+        Activate the player special jump ability.
         """
         self.is_jumping = True

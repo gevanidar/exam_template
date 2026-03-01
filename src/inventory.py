@@ -3,18 +3,18 @@ from item import Item
 
 class Inventory:
     """
-    TODO: ADD DOCSTRING
+    Class representing the player inventory.
     """
 
     def __init__(self):
         """
-        TODO: ADD DOCSTRING
+        Initializes the Inventory with no items.
         """
         self.items = []
 
     def __str__(self):
         """
-        TODO: ADD DOCSTRING
+        Display represenation of the inventory.
         """
         display = ""
         for item in self.items:
@@ -31,25 +31,29 @@ class Inventory:
 
     def add(self, item: Item):
         """
-        TODO: ADD DOCSTRING
+        Add an item to the inventory.\n
+        item= The item to add to the inventory.
         """
         self.items.append(item)
 
     def size(self):
         """
-        TODO: ADD DOCSTRING
+        The size of the inventory.\n
+        Return: The size of the inventory
         """
         return len(self.items)
 
     def get_items(self):
         """
-        TODO: ADD DOCSTRING
+        Get all items in the inventory.\n
         """
         return self.items
 
     def get(self, index):
         """
-        TODO: ADD DOCSTRING
+        Get the item in the inventory at index.\n
+        index= The index of the item.\n
+        Return: The item at the index.
         """
         if len(self.items) <= index:
             return None

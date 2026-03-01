@@ -3,7 +3,7 @@ from unit import Unit
 
 
 class Grid:
-    """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor."""
+    """Representation of the grid for the game."""
 
     width = 20
     height = 12
@@ -17,31 +17,35 @@ class Grid:
 
     def size(self):
         """
-        TODO: ADD DOCSTRING
+        The size of the grid
+        Return: A tuple of the (width, height)
         """
         return self.width, self.height
 
     def get(self, x, y):
-        """Hämta det som finns på en viss position"""
+        """Get the Unit data from position (x,y)"""
         if not self.boundary_check(x, y):
             return
         return self.data[y][x]
 
     def set(self, x, y, value):
-        """Ändra vad som finns på en viss position"""
+        """Set the Unit data on position (x,y)"""
         if not self.boundary_check(x, y):
             return
         self.data[y][x] = value
 
     def set_player(self, player):
         """
-        TODO: ADD DOCSTRING
+        Set the player on the grid
+        Player: the player
         """
         self.player = player
 
     def destroy(self, x, y):
         """
-        TODO: ADD DOCSTRING
+        Destoy any non-empty unit on the grid at position (x,y).
+        x= The horizontal position
+        y= The vertical position
         """
         if not self.boundary_check(x, y):
             return
@@ -52,19 +56,20 @@ class Grid:
         self.clear(x, y)
 
     def clear(self, x, y):
-        """Ta bort item från position"""
+        """Clears any positon (x,y) on the grid"""
         if not self.boundary_check(x, y):
             return
         self.set(x, y, Unit.EMPTY)
 
     def boundary_check(self, x, y):
         """
-        TODO: ADD DOCSTRING
+        Check if the position (x,y) is within the grid boundaries.
+        Return: True if both x and y are within the grid boundaries.
         """
         return x >= 0 and x < self.width and y >= 0 and y < self.height
 
     def __str__(self):
-        """Gör så att vi kan skriva ut spelplanen med print(grid)"""
+        """Displays the grid"""
         xs = ""
         for y in range(len(self.data)):
             row = self.data[y]
@@ -77,7 +82,7 @@ class Grid:
         return xs
 
     def make_walls(self):
-        """Skapa väggar runt hela spelplanen"""
+        """Creates walls and rooms onthe grid."""
         self.make_room(0, 0, self.width - 1, self.height - 1)
 
         assert self.width >= 20
@@ -99,7 +104,11 @@ class Grid:
 
     def make_room(self, start_x, start_y, stop_x, stop_y):
         """
-        TODO: ADD DOCSTRING
+        Helper function for creating a room.
+        start_x= The left wall  of the room.
+        stop_x= The right wall of the room.
+        start_y= The upper wall of the room.
+        stop_x= The lower wall  of the room.
         """
         for y in range(start_y, stop_y):
             if self.is_empty(start_x, y):
@@ -118,17 +127,25 @@ class Grid:
 
     # Används i filen pickups.py
     def get_random_x(self):
-        """Slumpa en x-position på spelplanen"""
+        """Generate a random x value within the grid boundaries."""
         return random.randint(0, self.width - 1)
 
     def get_random_y(self):
-        """Slumpa en y-position på spelplanen"""
+        """Generate a radom y value within the gid boundaries."""
         return random.randint(0, self.height - 1)
 
     def is_empty(self, x, y):
-        """Returnerar True om det inte finns något på aktuell ruta"""
+        """Check if the position (x,y) is empty.\n
+        x= The horizontal position.\n
+        y= The vertical position.\n
+        Return: True if position is empty
+        """
         return self.get(x, y) == Unit.EMPTY
 
     def is_obstacle(self, x, y):
-        """Returnerar True if the position contains and obstacle"""
+        """eturnerar True if the position contains and obstacle.\n
+        x= The horizontal position.\n
+        y= The vertical position.\n
+        Return: True if position contains an obstacle
+        """
         return self.get(x, y) == Unit.WALL

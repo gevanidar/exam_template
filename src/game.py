@@ -12,7 +12,7 @@ from bomb import Bomb
 
 class Input(Enum):
     """
-    TODO: ADD DOCSTRING
+    Allowed input keys
     """
 
     NORTH = "w"
@@ -29,9 +29,9 @@ class Input(Enum):
         return self.value.upper()
 
 
-class State(Enum):
+class GameState(Enum):
     """
-    TODO: ADD DOCSTRING
+    Game state for if the game is currently active, if the player stopped the game or if the player lost.
     """
 
     ACTIVE = "ACTIVE"
@@ -41,7 +41,7 @@ class State(Enum):
 
 class Game:
     """
-    TODO: ADD DOCSTRING
+    Game controls the logic and rules for the game.
     """
 
     def __init__(self):
@@ -69,20 +69,21 @@ class Game:
         self.grid = g
         self.player = player
         self.score = 0
-        self.state = State.ACTIVE
+        self.state = GameState.ACTIVE
         self.turn = 0
         self.refresh_rate = 25
         self.bombs = []
 
-    def place_bomb(self, bomb: Bomb):
+    def place_bomb(self):
         """
-        TODO: ADD DOCSTRING
+        Allows placement of a bomb at player position.
         """
+        bomb = Bomb(self.player.pos_x, self.player.pos_y)
         self.bombs.append(bomb)
 
     def check_bombs(self):
         """
-        TODO: ADD DOCSTRING
+        Check all bombs in the game to determine if any bomb is about to explode.
         """
         index_to_remove = -1
         for index in range(len(self.bombs)):
@@ -114,12 +115,9 @@ class Game:
         if self.player.pos_y < y_min or y_max < self.player.pos_y:
             return
 
-        self.state = State.LOSS
+        self.state = GameState.LOSS
 
     def move_player(self, direction: Direction):
-        """
-        TODO: ADD DOCSTRING
-        """
         """Move the player on the grid in the direction\n
         direction = the direction to move the player"""
         dir = direction.value
@@ -157,22 +155,21 @@ class Game:
 
     def apply_lava(self):
         """
-        TODO: ADD DOCSTRING
+        The floor is made of lava, walking int lava reduces the score by 1.
         """
         self.score -= 1
 
-    # TODO: flytta denna till en annan fil
     def print_status(self):
-        """Visa spelvärlden och antal poäng."""
+        """Displays the score and the grid"""
         print("--------------------------------------")
         print(f"You have {self.score} points.")
         print(self.grid)
 
     def start(self):
         """
-        TODO: ADD DOCSTRING
+        Starts the game loop
         """
-        while State.ACTIVE == self.state:
+        while GameState.ACTIVE == self.state:
             self.print_status()
 
             commands = input(
@@ -180,7 +177,7 @@ class Game:
             )
             commands = commands.casefold()
             for i in range(len(commands)):
-                if self.state != State.ACTIVE:
+                if self.state != GameState.ACTIVE:
                     break
                 command = commands[i]
 
@@ -207,14 +204,13 @@ class Game:
                             )
                             print(f"{inventory_list}")
                     case Input.EXIT.value:
-                        self.state = State.QUIT
+                        self.state = GameState.QUIT
                         break
                     case Input.QUIT.value:
-                        self.state = State.QUIT
+                        self.state = GameState.QUIT
                         break
                     case Input.BOMB.value:
-                        bomb = Bomb(self.player.pos_x, self.player.pos_y)
-                        self.place_bomb(bomb)
+                        self.place_bomb()
                     case _:
                         matched = False
 
@@ -224,7 +220,7 @@ class Game:
                 if self.turn % self.refresh_rate == 0:
                     add_random_pickup(self.grid)
 
-        if State.QUIT == self.state:
-            print("Tank you for playing")
-        elif State.LOSS == self.state:
-            print(f"You lost the game. Your score: {self.score}")
+        if GameState.QUIT == self.state:
+            print(f"Thank you for playing. Your score: {self.score}")
+        elif GameState.LOSS == self.state:
+            print(f"Thank you for playing. You lost the game. Your score: {self.score}")

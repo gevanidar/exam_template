@@ -3,7 +3,7 @@ from enum import Enum
 
 class Direction(Enum):
     """
-    TODO: ADD DOCSTRING
+    A Direction allowedon the drid in a readable format.
     """
 
     NORTH = (0, -1)

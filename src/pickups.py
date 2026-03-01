@@ -16,7 +16,8 @@ pickups = [
 
 def randomize(grid: Grid):
     """
-    TODO: ADD DOCSTRING
+    Randomize all pickups on the grid.\n
+    grid= The grid to populate with the pickups.
     """
     for item in pickups:
         add_pickup(grid, item)
@@ -24,14 +25,16 @@ def randomize(grid: Grid):
 
 def add_random_pickup(grid: Grid):
     """
-    TODO: ADD DOCSTRING
+    Adds a random pickup item to the grid.\n
+    grid= The grid to populate with the pickup.
     """
     add_pickup(grid, pickups[random.randint(0, len(pickups) - 1)])
 
 
 def add_pickup(grid: Grid, item: Item):
     """
-    TODO: ADD DOCSTRING
+    Adds an item to the grid.\n
+    grid= The grid to populate with the item.
     """
     while True:
         x = grid.get_random_x()
