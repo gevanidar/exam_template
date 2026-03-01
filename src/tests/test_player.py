@@ -3,6 +3,7 @@ from grid import Grid
 from unit import Unit
 from player import Player
 from item import Item
+from direction import Direction
 
 
 class TestGrid(unittest.TestCase):
@@ -15,7 +16,7 @@ class TestGrid(unittest.TestCase):
         g.set(x, y, Unit.WALL)
         g.set_player(player)
 
-        moved = player.can_move(0, 1, g)
+        moved = player.can_move(Direction.SOUTH, g)
 
         self.assertEqual(False, moved)
 
@@ -30,6 +31,6 @@ class TestGrid(unittest.TestCase):
         g.set(x, y, item)
         g.set_player(player)
 
-        player.move(0, 1)
+        player.move(Direction.SOUTH)
         self.assertEqual(1, len(player.inventory.items))
         self.assertEqual(item, player.inventory.get(0))
