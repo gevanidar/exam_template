@@ -14,6 +14,6 @@ class TestGrid(unittest.TestCase):
         g.set(x, y, Unit.WALL)
         g.set_player(player)
 
-        moved = player.can_move(2, 2, g)
+        moved = player.can_move(0, 1, g)
 
         self.assertEqual(False, moved)

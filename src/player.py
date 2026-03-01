@@ -19,7 +19,9 @@ class Player:
         self.pos_x += dx
         self.pos_y += dy
 
-    def can_move(self, x, y, grid):
+    def can_move(self, dx, dy, grid):
+        x = self.pos_x + dx
+        y = self.pos_y + dy
         unit = grid.get(x, y)
         if unit == Unit.WALL:
             return False

@@ -1,6 +1,7 @@
 from grid import Grid
 from player import Player
-from pickups import pickups
+from pickups import pickups, randomize
+from item import Item
 
 player = Player(2, 1)
 score = 0
@@ -9,7 +10,7 @@ inventory = []
 g = Grid()
 g.set_player(player)
 g.make_walls()
-pickups.randomize(g)
+randomize(g)
 
 
 # TODO: flytta denna till en annan fil
@@ -29,11 +30,12 @@ while command.casefold() not in ["q", "x"]:
     command = command.casefold()[:1]
 
     if command == "d" and player.can_move(1, 0, g):  # move right
+        print("Moving player")
         # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
         maybe_item = g.get(player.pos_x + 1, player.pos_y)
         player.move(1, 0)
 
-        if isinstance(maybe_item, pickups.Item):
+        if isinstance(maybe_item, Item):
             # we found something
             score += maybe_item.points
             print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
