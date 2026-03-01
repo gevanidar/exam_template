@@ -1,4 +1,6 @@
 from enum import Enum
+import random
+from math import floor
 
 from grid import Grid
 from player import Player
@@ -25,12 +27,19 @@ class Direction(Enum):
 
 class Game:
     def __init__(self):
-        player = Player(2, 1)
-
         g = Grid()
+        width, height = g.size()
+        dx = 2
+        dy = 2
+        mid_x = floor(width / 2)
+        mid_y = floor(height / 2)
+        x = random.randint(mid_x - dx, mid_x + dx)
+        y = random.randint(mid_y - dy, mid_y + dy)
+        player = Player(x, y)
         g.set_player(player)
         g.make_walls()
         randomize(g)
+
         self.grid = g
         self.player = player
         self.score = 0

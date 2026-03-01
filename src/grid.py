@@ -15,6 +15,9 @@ class Grid:
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
 
+    def size(self):
+        return self.width, self.height
+
     def get(self, x, y):
         """Hämta det som finns på en viss position"""
         return self.data[y][x]
