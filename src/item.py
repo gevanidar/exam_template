@@ -23,4 +23,4 @@ class Item:
         The string representation of the item.
         Return: The name of the item
         """
-        return self.name
+        return self.unit

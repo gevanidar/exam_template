@@ -230,7 +230,7 @@ class Game:
                         else:
                             inventory_list = "Your inventory consists of:"
                             inventory_list += "".join(
-                                [f"\n{item}" for item in inventory]
+                                [f"\n{item.name}" for item in inventory]
                             )
                             print(f"{inventory_list}")
                     case Input.EXIT.value:
