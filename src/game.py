@@ -6,6 +6,7 @@ from grid import Grid
 from player import Player
 from pickups import randomize
 from item import Item
+from direction import Direction
 
 
 class Input(Enum):
@@ -13,16 +14,6 @@ class Input(Enum):
     EAST = "d"
     SOUTH = "s"
     WEST = "a"
-
-
-class Direction(Enum):
-    NORTH = (0, -1)
-    EAST = (1, 0)
-    SOUTH = (0, 1)
-    WEST = (-1, 0)
-
-    def __str__(self):
-        return self.name.lower()
 
 
 class Game:
@@ -49,13 +40,13 @@ class Game:
     def move(self, direction: Direction):
         dir = direction.value
         new_pos = (self.player.pos_x + dir[0], self.player.pos_y + dir[1])
-        if not self.player.can_move(dir[0], dir[1], self.grid):
+        if not self.player.can_move(direction, self.grid):
             unit = self.grid.get(new_pos[0], new_pos[1])
             print(f"I cannot move {direction} because a {unit.value} is in the way.")
             return
         maybe_item = self.grid.get(new_pos[0], new_pos[1])
 
-        self.player.move(dir[0], dir[1])
+        self.player.move(direction)
 
         if isinstance(maybe_item, Item):
             # we found something
