@@ -19,8 +19,14 @@ class Inventory:
         display.rstrip(",")
         return display
 
+    def add(self, item: Item):
+        self.items.append(item)
+
     def size(self):
         return len(self.items)
+
+    def get_items(self):
+        return self.items
 
     def get(self, index):
         if len(self.items) <= index:

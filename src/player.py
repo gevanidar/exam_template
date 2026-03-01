@@ -1,6 +1,8 @@
 from unit import Unit
+
 from inventory import Inventory
 from direction import Direction
+from item import Item
 
 
 class Player:
@@ -34,3 +36,10 @@ class Player:
         if unit == Unit.WALL:
             return False
         return True
+
+    def get_inventory(self):
+        return self.inventory.get()
+
+    def add_to_inventory(self, item: Item):
+        self.inventory.add(item)
+        print(f"You found a {item.name}, +{item.points} points.")

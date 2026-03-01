@@ -64,10 +64,9 @@ class Game:
         self.player.move(direction)
 
         if isinstance(maybe_item, Item):
-            # we found something
-            self.score += maybe_item.points
-            print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
-            # g.set(player.pos_x, player.pos_y, Unit.EMPTY)
+            item = maybe_item
+            self.player.add_to_inventory(item)
+            self.score += item.points
             self.grid.clear(self.player.pos_x, self.player.pos_y)
         return None
 
