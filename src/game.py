@@ -7,6 +7,7 @@ from player import Player
 from pickups import randomize
 from item import Item
 from direction import Direction
+from bomb import Bomb
 
 
 class Input(Enum):
@@ -18,14 +19,16 @@ class Input(Enum):
     QUIT = "q"
     EXIT = "x"
     JUMP = "j"
+    BOMB = "b"
 
     def __str__(self):
         return self.value.upper()
 
 
 class State(Enum):
-    RUNNING = "running"
+    RUNNING = "RUNNING"
     QUIT = "QUIT"
+    LOSS = "LOSS"
 
 
 class Game:
@@ -55,26 +58,69 @@ class Game:
         self.player = player
         self.score = 0
         self.state = State.RUNNING
+        self.turn = 0
+        self.bombs = []
+
+    def place_bomb(self, bomb: Bomb):
+        self.bombs.append(bomb)
+
+    def check_bombs(self):
+        index_to_remove = -1
+        for index in range(len(self.bombs)):
+            bomb: Bomb = self.bombs[index]
+            if bomb.is_exploding():
+                index_to_remove = index
+            else:
+                bomb.tic()
+
+        if index_to_remove == -1:
+            return
+        bomb = self.bombs[index_to_remove]
+        print("Bomb is about to explode")
+        self.bombs.remove(bomb)
+
+        self.grid.clear(bomb.x, bomb.y)
+
+        x_min = max(0, bomb.x - 1)
+        y_min = max(0, bomb.y - 1)
+
+        x_max = min(bomb.x + 1, self.grid.width)
+        y_max = min(bomb.y + 1, self.grid.height)
+        for x in range(x_min, x_max + 1):
+            for y in range(y_min, y_max + 1):
+                self.grid.destroy(x, y)
+        if self.player.pos_x < x_min or x_max < self.player.pos_x:
+            return
+
+        if self.player.pos_y < y_min or y_max < self.player.pos_y:
+            return
+
+        self.state = State.LOSS
 
     def move_player(self, direction: Direction):
         """Move the player on the grid in the direction\n
         direction = the direction to move the player"""
         dir = direction.value
-        new_x = self.player.pos_x + dir[0]
-        new_y = self.player.pos_y + dir[1]
+        old_x = self.player.pos_x
+        old_y = self.player.pos_y
+        new_x = old_x + dir[0]
+        new_y = old_y + dir[1]
         inside_grid = self.grid.boundary_check(new_x, new_y)
         if not inside_grid:
             print("I cannot move outside of the map")
             return
+
         new_pos = (new_x, new_y)
         if not self.player.can_move(direction, self.grid):
             unit = self.grid.get(new_pos[0], new_pos[1])
             print(f"I cannot move {direction} because a {unit.value} is in the way.")
             return
+
         maybe_item = self.grid.get(new_pos[0], new_pos[1])
 
         is_jumping = self.player.is_jumping
         self.player.move(direction)
+        self.check_bombs()
 
         if isinstance(maybe_item, Item):
             item = maybe_item
@@ -106,6 +152,8 @@ class Game:
             )
             commands = commands.casefold()
             for i in range(len(commands)):
+                if self.state != State.RUNNING:
+                    break
                 command = commands[i]
 
                 match command:
@@ -135,3 +183,11 @@ class Game:
                     case Input.QUIT.value:
                         self.state = State.QUIT
                         break
+                    case Input.BOMB.value:
+                        bomb = Bomb(self.player.pos_x, self.player.pos_y)
+                        self.place_bomb(bomb)
+
+        if State.QUIT == self.state:
+            print("Tank you for playing")
+        elif State.LOSS == self.state:
+            print(f"You lost the game. Your score: {self.score}")

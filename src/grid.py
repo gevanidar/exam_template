@@ -20,17 +20,32 @@ class Grid:
 
     def get(self, x, y):
         """Hämta det som finns på en viss position"""
+        if not self.boundary_check(x, y):
+            return
         return self.data[y][x]
 
     def set(self, x, y, value):
         """Ändra vad som finns på en viss position"""
+        if not self.boundary_check(x, y):
+            return
         self.data[y][x] = value
 
     def set_player(self, player):
         self.player = player
 
+    def destroy(self, x, y):
+        if not self.boundary_check(x, y):
+            return
+        unit = self.get(x, y)
+        if Unit.EMPTY == unit:
+            return
+        print(f"Bomb destroyed {unit} at position ({x},{y})")
+        self.clear(x, y)
+
     def clear(self, x, y):
         """Ta bort item från position"""
+        if not self.boundary_check(x, y):
+            return
         self.set(x, y, Unit.EMPTY)
 
     def boundary_check(self, x, y):
