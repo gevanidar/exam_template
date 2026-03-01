@@ -17,6 +17,7 @@ class Input(Enum):
     INVENTORY = "i"
     QUIT = "q"
     EXIT = "x"
+    JUMP = "j"
 
     def __str__(self):
         return self.value.upper()
@@ -72,6 +73,7 @@ class Game:
             return
         maybe_item = self.grid.get(new_pos[0], new_pos[1])
 
+        is_jumping = self.player.is_jumping
         self.player.move(direction)
 
         if isinstance(maybe_item, Item):
@@ -81,7 +83,9 @@ class Game:
             self.grid.clear(self.player.pos_x, self.player.pos_y)
 
         self.apply_lava()
-        return None
+
+        if is_jumping:
+            self.move_player(direction)
 
     def apply_lava(self):
         self.score -= 1
@@ -105,6 +109,8 @@ class Game:
                 command = commands[i]
 
                 match command:
+                    case Input.JUMP.value:
+                        self.player.activate_jump()
                     case Input.NORTH.value:
                         self.move_player(Direction.NORTH)
                     case Input.EAST.value:

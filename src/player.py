@@ -12,6 +12,7 @@ class Player:
         self.pos_x = x
         self.pos_y = y
         self.inventory = Inventory()
+        self.is_jumping = False
 
     def __str__(self):
         return self.marker.value
@@ -24,6 +25,7 @@ class Player:
         dx, dy = direction.value
         self.pos_x += dx
         self.pos_y += dy
+        self.is_jumping = False
 
     def can_move(self, direction: Direction, grid):
         """Check if the player can move in a direction.\n
@@ -43,3 +45,6 @@ class Player:
     def add_to_inventory(self, item: Item):
         self.inventory.add(item)
         print(f"You found a {item.name}, +{item.points} points.")
+
+    def activate_jump(self):
+        self.is_jumping = True

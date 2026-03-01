@@ -33,7 +33,7 @@ Börja med att läsa igenom hela uppgiften, sedan hittar du länk till ett kodpr
 - [ ] Nycklar och kistor - slumpa minst en nyckel och lika många kistor på spelplanen. När man går på en ruta med en nyckel plockar man upp den i sitt inventory. Om man kommer till en kista och har minst en nyckel, öppnar man kistan och plockar upp en skatt som är värd 100 poäng. (Nyckeln är förbrukad.)
 - [ ] Bördig jord - efter varje 25:e drag skapas en ny frukt/grönsak någonstans på kartan.
 - [ ] Exit - slumpa ett "E" på kartan. När man har plockat upp alla ursprungliga saker, kan man gå till exit för att vinna spelet. Men innan man tagit upp alla har inte Exit någon effekt.
-- [ ] Jump - om man skriver ett "J" innan något av "WASD", ska spelaren hoppa över en ruta. (Exempel: "JW" → två steg uppåt.) Man förflyttar sig alltså två steg, men kan förstås bara plocka upp eller interagera med saker där man landar. Hoppar man in i en vägg blir det samma effekt som om man hade gått ett steg på vanligt sätt.
+- [X] Jump - om man skriver ett "J" innan något av "WASD", ska spelaren hoppa över en ruta. (Exempel: "JW" → två steg uppåt.) Man förflyttar sig alltså två steg, men kan förstås bara plocka upp eller interagera med saker där man landar. Hoppar man in i en vägg blir det samma effekt som om man hade gått ett steg på vanligt sätt.
 
 ## Version 3 - extra utmaning
 - [ ] Grace period - efter man har tagit plockat upp något, kan man gå 5 steg utan att det dras några poäng.
