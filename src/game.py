@@ -29,6 +29,8 @@ class Game:
     def __init__(self):
         g = Grid()
         width, height = g.size()
+        assert width > 10
+        assert height > 10
         dx = 2
         dy = 2
         mid_x = floor(width / 2)
