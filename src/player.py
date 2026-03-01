@@ -71,4 +71,7 @@ class Player:
         """
         Activate the player special jump ability.
         """
+        if self.is_jumping:
+            return
+        print("Jump activated")
         self.is_jumping = True

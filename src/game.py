@@ -28,25 +28,20 @@ class Game:
 
         randomize(g)
 
+        # Randomize trap position
+        x, y = self.randomize_position(g, 0, 0, width, height)
+        g.set_trap(x, y)
+
+        # Randomize trap position
         dx = 2
         dy = 2
         mid_x = floor(width / 2)
         mid_y = floor(height / 2)
-        x = 0
-        y = 0
-        while not g.is_empty(x, y):
-            x = random.randint(mid_x - dx, mid_x + dx)
-            y = random.randint(mid_y - dy, mid_y + dy)
+        x, y = self.randomize_position(
+            g, mid_x - dx, mid_y - dy, mid_x + dx, mid_y + dy
+        )
         player = Player(x, y)
         g.set_player(player)
-
-        x = 0
-        y = 0
-        while not g.is_empty(x, y):
-            x = random.randint(0, width)
-            y = random.randint(0, height)
-
-        g.set_trap(x, y)
 
         self.grid = g
         self.player = player
@@ -55,6 +50,14 @@ class Game:
         self.turn = 0
         self.refresh_rate = 25
         self.bombs = []
+
+    def randomize_position(self, grid, x_min, y_min, x_max, y_max):
+        x = 0
+        y = 0
+        while not grid.is_empty(x, y):
+            x = random.randint(x_min, x_max)
+            y = random.randint(y_min, y_max)
+        return x, y
 
     def place_bomb(self):
         """
@@ -162,7 +165,6 @@ class Game:
 
     def print_status(self):
         """Displays the score and the grid"""
-        print("--------------------------------------")
         print(f"You have {self.score} points.")
         print(self.grid)
 
@@ -174,9 +176,14 @@ class Game:
             self.print_status()
 
             commands = input(
-                f"Use {Input.NORTH}{Input.EAST}{Input.SOUTH}{Input.WEST} to move, {Input.QUIT}/{Input.EXIT} to quit. "
+                f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move, {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
+                + f'Commands will execute in succession, "{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}" then the player will {Input.MOVE_NORTH.description()} twice then {Input.MOVE_EAST.description()} once (if possible).\n'
+                + f"{Input.SHOW_HELP.explanation()}.\n"
+                + "Your commands: "
             )
             commands = commands.casefold()
+            print("--------------------------------------")
+            print(f"Log from executing {commands}:")
             for i in range(len(commands)):
                 if self.state != GameState.ACTIVE:
                     break
@@ -184,17 +191,17 @@ class Game:
 
                 matched = True
                 match command:
-                    case Input.JUMP.value:
+                    case Input.ACTIVATE_JUMP.value:
                         self.player.activate_jump()
-                    case Input.NORTH.value:
+                    case Input.MOVE_NORTH.value:
                         self.move_player(Direction.NORTH)
-                    case Input.EAST.value:
+                    case Input.MOVE_EAST.value:
                         self.move_player(Direction.EAST)
-                    case Input.SOUTH.value:
+                    case Input.MOVE_SOUTH.value:
                         self.move_player(Direction.SOUTH)
-                    case Input.WEST.value:
+                    case Input.MOVE_WEST.value:
                         self.move_player(Direction.WEST)
-                    case Input.INVENTORY.value:
+                    case Input.SHOW_INVENTORY.value:
                         inventory = self.player.get_inventory()
                         if len(inventory) == 0:
                             print("You have no items.")
@@ -205,17 +212,25 @@ class Game:
                             )
                             inventory_list = inventory_list.rstrip(", ")
                             print(f"{inventory_list}")
-                    case Input.EXIT.value:
+                    case Input.EXIT_GAME.value:
                         self.state = GameState.QUIT
                         break
-                    case Input.QUIT.value:
+                    case Input.QUIT_GAME.value:
                         self.state = GameState.QUIT
                         break
-                    case Input.BOMB.value:
+                    case Input.PLACE_BOMB.value:
                         self.place_bomb()
-                    case Input.TRAP.value:
+                    case Input.DISARM_TRAP.value:
                         self.disarm_trap()
+                    case Input.SHOW_HELP.value:
+                        instructions = "All keys and their function:"
+                        for i in Input:
+                            instructions += "\n"
+                            instructions += i.explanation()
+                        print(instructions)
+
                     case _:
+                        print(f"The key '{command}' has no use here.")
                         matched = False
 
                 if matched:
