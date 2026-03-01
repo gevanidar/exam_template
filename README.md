@@ -1,6 +1,6 @@
 # Examination
 
-Individual assignmet i the cource "Programmering med Python".
+Individual assignmet i the course "Programmering med Python".
 
 ## Start the program
 

@@ -4,7 +4,7 @@ from math import floor
 
 from grid import Grid
 from player import Player
-from pickups import randomize
+from pickups import randomize, add_random_pickup
 from item import Item
 from direction import Direction
 from bomb import Bomb
@@ -59,6 +59,7 @@ class Game:
         self.score = 0
         self.state = State.RUNNING
         self.turn = 0
+        self.refresh_rate = 25
         self.bombs = []
 
     def place_bomb(self, bomb: Bomb):
@@ -156,6 +157,7 @@ class Game:
                     break
                 command = commands[i]
 
+                matched = True
                 match command:
                     case Input.JUMP.value:
                         self.player.activate_jump()
@@ -186,6 +188,14 @@ class Game:
                     case Input.BOMB.value:
                         bomb = Bomb(self.player.pos_x, self.player.pos_y)
                         self.place_bomb(bomb)
+                    case _:
+                        matched = False
+
+                if matched:
+                    self.turn += 1
+
+                if self.turn % self.refresh_rate == 0:
+                    add_random_pickup(self.grid)
 
         if State.QUIT == self.state:
             print("Tank you for playing")

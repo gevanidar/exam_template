@@ -1,4 +1,6 @@
+import random
 from item import Item
+from grid import Grid
 
 pickups = [
     Item("carrot"),
@@ -12,12 +14,19 @@ pickups = [
 ]
 
 
-def randomize(grid):
+def randomize(grid: Grid):
     for item in pickups:
-        while True:
-            # slumpa en position tills vi hittar en som är ledig
-            x = grid.get_random_x()
-            y = grid.get_random_y()
-            if grid.is_empty(x, y):
-                grid.set(x, y, item)
-                break  # avbryt while-loopen, fortsätt med nästa varv i for-loopen
+        add_pickup(grid, item)
+
+
+def add_random_pickup(grid: Grid):
+    add_pickup(grid, pickups[random.randint(0, len(pickups) - 1)])
+
+
+def add_pickup(grid: Grid, item: Item):
+    while True:
+        x = grid.get_random_x()
+        y = grid.get_random_y()
+        if grid.is_empty(x, y):
+            grid.set(x, y, item)
+            break
