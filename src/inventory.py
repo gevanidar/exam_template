@@ -19,7 +19,7 @@ class Inventory:
         display = ""
         for item in self.items:
             if isinstance(item, Item):
-                display += item.value
+                display += f"{item}"
                 display += ","
             else:
                 display += "Non-item found("

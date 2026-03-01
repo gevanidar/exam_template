@@ -2,8 +2,11 @@ from enum import Enum
 
 
 class Unit(Enum):
-    EMPTY = "."  # Tecken för en tom ruta
-    WALL = "■"  # Tecken för en ogenomtränglig vägg
+    EMPTY = "."
+    WALL = "■"
     ITEM = "?"
     PLAYER = "@"
     TRAP = "!"
+
+    def __str__(self):
+        return self.value

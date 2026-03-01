@@ -228,10 +228,11 @@ class Game:
                         if len(inventory) == 0:
                             print("You have no items.")
                         else:
-                            inventory_list = "Your inventory consists of:"
+                            inventory_list = "Your inventory consists of: "
                             inventory_list += "".join(
-                                [f"\n{item.name}" for item in inventory]
+                                [f"{item.name}, " for item in inventory]
                             )
+                            inventory_list = inventory_list.rstrip(", ")
                             print(f"{inventory_list}")
                     case Input.EXIT.value:
                         self.state = GameState.QUIT

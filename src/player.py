@@ -27,7 +27,7 @@ class Player:
         """
         The representaton for the player, used to be displayed on the grid.
         """
-        return self.marker.value
+        return f"{self.marker}"
 
     # Flyttar spelaren. "dx" och "dy" är skillnaden
     def move(self, direction: Direction):

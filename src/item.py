@@ -17,10 +17,3 @@ class Item:
         self.name = name
         self.unit = unit
         self.value = unit.value
-
-    def __str__(self):
-        """
-        The string representation of the item.
-        Return: The name of the item
-        """
-        return self.unit
