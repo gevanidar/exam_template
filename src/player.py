@@ -1,4 +1,5 @@
 from unit import Unit
+from inventory import Inventory
 
 
 class Player:
@@ -10,6 +11,7 @@ class Player:
     def __init__(self, x, y):
         self.pos_x = x
         self.pos_y = y
+        self.inventory = Inventory()
 
     # Flyttar spelaren. "dx" och "dy" är skillnaden
     def move(self, dx, dy):

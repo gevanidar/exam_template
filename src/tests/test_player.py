@@ -2,6 +2,7 @@ import unittest
 from grid import Grid
 from unit import Unit
 from player import Player
+from item import Item
 
 
 class TestGrid(unittest.TestCase):
@@ -17,3 +18,18 @@ class TestGrid(unittest.TestCase):
         moved = player.can_move(0, 1, g)
 
         self.assertEqual(False, moved)
+
+    def test_player_pickup_item(self):
+        """Test is player can pickup an item"""
+        player = Player(2, 1)
+        self.assertEqual(0, len(player.inventory.items))
+        g = Grid()
+        x = 2
+        y = 2
+        item = Item("carrot")
+        g.set(x, y, item)
+        g.set_player(player)
+
+        player.move(0, 1)
+        self.assertEqual(1, len(player.inventory.items))
+        self.assertEqual(item, player.inventory.get(0))

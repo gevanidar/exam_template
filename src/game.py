@@ -1,6 +1,6 @@
 from grid import Grid
 from player import Player
-from pickups import pickups, randomize
+from pickups import randomize
 from item import Item
 
 player = Player(2, 1)
@@ -32,7 +32,6 @@ while command.casefold() not in ["q", "x"]:
         command = commands[i]
 
         if command == "d" and player.can_move(1, 0, g):  # move right
-            print("Moving player")
             # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
             maybe_item = g.get(player.pos_x + 1, player.pos_y)
             player.move(1, 0)
@@ -43,6 +42,8 @@ while command.casefold() not in ["q", "x"]:
                 print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
                 # g.set(player.pos_x, player.pos_y, Unit.EMPTY)
                 g.clear(player.pos_x, player.pos_y)
+        if command == "i":
+            print(player.inventory)
 
 
 # Hit kommer vi när while-loopen slutar
