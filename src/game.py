@@ -59,7 +59,13 @@ class Game:
         """Move the player on the grid in the direction\n
         direction = the direction to move the player"""
         dir = direction.value
-        new_pos = (self.player.pos_x + dir[0], self.player.pos_y + dir[1])
+        new_x = self.player.pos_x + dir[0]
+        new_y = self.player.pos_y + dir[1]
+        inside_grid = self.grid.boundary_check(new_x, new_y)
+        if not inside_grid:
+            print("I cannot move outside of the map")
+            return
+        new_pos = (new_x, new_y)
         if not self.player.can_move(direction, self.grid):
             unit = self.grid.get(new_pos[0], new_pos[1])
             print(f"I cannot move {direction} because a {unit.value} is in the way.")

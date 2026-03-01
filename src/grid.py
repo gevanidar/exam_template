@@ -33,6 +33,9 @@ class Grid:
         """Ta bort item från position"""
         self.set(x, y, Unit.EMPTY)
 
+    def boundary_check(self, x, y):
+        return x >= 0 and x < self.width and y >= 0 and y < self.height
+
     def __str__(self):
         """Gör så att vi kan skriva ut spelplanen med print(grid)"""
         xs = ""
