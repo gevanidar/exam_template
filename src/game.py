@@ -68,7 +68,12 @@ class Game:
             self.player.add_to_inventory(item)
             self.score += item.points
             self.grid.clear(self.player.pos_x, self.player.pos_y)
+
+        self.apply_lava()
         return None
+
+    def apply_lava(self):
+        self.score -= 1
 
     # TODO: flytta denna till en annan fil
     def print_status(self):
@@ -79,7 +84,7 @@ class Game:
 
     def start(self):
         while State.RUNNING == self.state:
-            game.print_status()
+            self.print_status()
 
             commands = input(
                 f"Use {Input.NORTH}{Input.EAST}{Input.SOUTH}{Input.WEST} to move, {Input.QUIT}/{Input.EXIT} to quit. "
@@ -90,15 +95,15 @@ class Game:
 
                 match command:
                     case Input.NORTH.value:
-                        game.move_player(Direction.NORTH)
+                        self.move_player(Direction.NORTH)
                     case Input.EAST.value:
-                        game.move_player(Direction.EAST)
+                        self.move_player(Direction.EAST)
                     case Input.SOUTH.value:
-                        game.move_player(Direction.SOUTH)
+                        self.move_player(Direction.SOUTH)
                     case Input.WEST.value:
-                        game.move_player(Direction.WEST)
+                        self.move_player(Direction.WEST)
                     case Input.INVENTORY.value:
-                        inventory = game.player.get_inventory()
+                        inventory = self.player.get_inventory()
                         if len(inventory) == 0:
                             print("You have no items.")
                         else:
@@ -113,10 +118,3 @@ class Game:
                     case Input.QUIT.value:
                         self.state = State.QUIT
                         break
-
-
-game = Game()
-
-game.start()
-
-print("Thank you for playing!")
