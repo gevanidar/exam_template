@@ -15,7 +15,8 @@ python -m main
 ## Testing
 
 Running the test suite for the program
-```
+
+```commandline
 cd src/
 python -m unittest
 ```
