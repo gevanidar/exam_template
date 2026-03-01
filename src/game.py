@@ -1,4 +1,3 @@
-import random
 from math import floor
 
 from grid import Grid
@@ -28,17 +27,17 @@ class Game:
 
         randomize(g)
 
-        # Randomize trap position
-        x, y = self.randomize_position(g, 0, 0, width, height)
+        # Randomize trap position on grid
+        x, y = g.randomized_empty_position(0, 0, width - 1, height - 1)
         g.set_trap(x, y)
 
-        # Randomize trap position
+        # Randomize player position to middle
         dx = 2
         dy = 2
         mid_x = floor(width / 2)
         mid_y = floor(height / 2)
-        x, y = self.randomize_position(
-            g, mid_x - dx, mid_y - dy, mid_x + dx, mid_y + dy
+        x, y = g.randomized_empty_position(
+            mid_x - dx, mid_y - dy, mid_x + dx, mid_y + dy
         )
         player = Player(x, y)
         g.set_player(player)
@@ -50,14 +49,6 @@ class Game:
         self.turn = 0
         self.refresh_rate = 25
         self.bombs = []
-
-    def randomize_position(self, grid, x_min, y_min, x_max, y_max):
-        x = 0
-        y = 0
-        while not grid.is_empty(x, y):
-            x = random.randint(x_min, x_max)
-            y = random.randint(y_min, y_max)
-        return x, y
 
     def place_bomb(self):
         """

@@ -17,6 +17,16 @@ class Grid:
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
 
+    def randomized_empty_position(self, x_min, y_min, x_max, y_max):
+        assert self.boundary_check(x_min, y_min)
+        assert self.boundary_check(x_max, y_max)
+        x = 0
+        y = 0
+        while not self.is_empty(x, y):
+            x = random.randint(x_min, x_max)
+            y = random.randint(y_min, y_max)
+        return x, y
+
     def size(self):
         """
         The size of the grid

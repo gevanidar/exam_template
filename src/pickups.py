@@ -36,9 +36,5 @@ def add_pickup(grid: Grid, item: Item):
     Adds an item to the grid.\n
     grid= The grid to populate with the item.
     """
-    while True:
-        x = grid.get_random_x()
-        y = grid.get_random_y()
-        if grid.is_empty(x, y):
-            grid.set(x, y, item)
-            break
+    x, y = grid.randomized_empty_position(0, 0, grid.width - 1, grid.height - 1)
+    grid.set(x, y, item)
