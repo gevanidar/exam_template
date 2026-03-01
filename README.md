@@ -1,17 +1,24 @@
 # Examination
 
-Individuell examinationsuppgift i kursen Programmering med Python.
+Individual assignmet i the cource "Programmering med Python".
 
-Börja läs igenom game.py - det är där projektet startas.
+## Start the program
 
-## Starta projektet
+To start the program, make sure you are in the `src/`.
 
 ```commandline
-python -m src.game
+cd src/
+python -m main
 ```
 
-Tips! Du kan spara denna rad som en "run configuration" i PyCharm.
-1. Välj "Edit configurations..."
-2. Ändra i sektionen "run" så det står `module` i stället för `script`
-3. Skriv `src.game` i rutan till höger om `module`
 
+## Testing
+
+Running the test suite for the program
+```
+cd src/
+python -m unittest
+```
+
+## Av
+Arvid Nilsson
