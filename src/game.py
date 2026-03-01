@@ -98,7 +98,15 @@ class Game:
                     case Input.WEST.value:
                         game.move_player(Direction.WEST)
                     case Input.INVENTORY.value:
-                        print(game.player.inventory)
+                        inventory = game.player.get_inventory()
+                        if len(inventory) == 0:
+                            print("You have no items.")
+                        else:
+                            inventory_list = "Your inventory consists of:"
+                            inventory_list += "".join(
+                                [f"\n{item}" for item in inventory]
+                            )
+                            print(f"{inventory_list}")
                     case Input.EXIT.value:
                         self.state = State.QUIT
                         break

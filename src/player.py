@@ -38,7 +38,7 @@ class Player:
         return True
 
     def get_inventory(self):
-        return self.inventory.get()
+        return self.inventory.get_items()
 
     def add_to_inventory(self, item: Item):
         self.inventory.add(item)

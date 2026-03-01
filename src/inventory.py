@@ -32,6 +32,3 @@ class Inventory:
         if len(self.items) <= index:
             return None
         return self.items[index]
-
-    def insert(self, item: Item):
-        self.items.append(item)

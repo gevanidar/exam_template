@@ -12,4 +12,4 @@ class Item:
         self.value = unit.value
 
     def __str__(self):
-        return self.symbol
+        return self.name
