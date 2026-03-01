@@ -1,4 +1,3 @@
-from enum import Enum
 import random
 from math import floor
 
@@ -14,36 +13,6 @@ from gamestate import GameState
 from input import Input
 
 
-class Input(Enum):
-    """
-    Allowed input keys
-    """
-
-    NORTH = "w"
-    EAST = "d"
-    SOUTH = "s"
-    WEST = "a"
-    INVENTORY = "i"
-    QUIT = "q"
-    EXIT = "x"
-    JUMP = "j"
-    BOMB = "b"
-    TRAP = "t"
-
-    def __str__(self):
-        return self.value.upper()
-
-
-class GameState(Enum):
-    """
-    Game state for if the game is currently active, if the player stopped the game or if the player lost.
-    """
-
-    ACTIVE = "ACTIVE"
-    QUIT = "QUIT"
-    LOSS = "LOSS"
-
-
 class Game:
     """
     Game controls the logic and rules for the game.
@@ -57,6 +26,8 @@ class Game:
         assert height > 10
         g.make_walls()
 
+        randomize(g)
+
         dx = 2
         dy = 2
         mid_x = floor(width / 2)
@@ -68,8 +39,6 @@ class Game:
             y = random.randint(mid_y - dy, mid_y + dy)
         player = Player(x, y)
         g.set_player(player)
-
-        randomize(g)
 
         x = 0
         y = 0
@@ -118,10 +87,9 @@ class Game:
         index_to_remove = -1
         for index in range(len(self.bombs)):
             bomb: Bomb = self.bombs[index]
+            bomb.tic()
             if bomb.is_exploding():
                 index_to_remove = index
-            else:
-                bomb.tic()
 
         if index_to_remove == -1:
             return

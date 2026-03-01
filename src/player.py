@@ -29,14 +29,15 @@ class Player:
         """
         return f"{self.marker}"
 
-    # Flyttar spelaren. "dx" och "dy" är skillnaden
     def move(self, direction: Direction):
         """Move player in direction.\n
         dx = horisontal movement, relative to player (neg. west, pos. east)\n
         dy = vercial movement, relative to player (neg. north, pos. south)"""
         dx, dy = direction.value
-        self.pos_x += dx
-        self.pos_y += dy
+        new_x = self.pos_x + dx
+        new_y = self.pos_y + dy
+        self.pos_x = new_x
+        self.pos_y = new_y
         self.is_jumping = False
 
     def can_move(self, direction: Direction, grid):
@@ -44,9 +45,9 @@ class Player:
         dx = horisontal movement, relative to player (neg. west, pos. east)\n
         dy = vercial movement, relative to player (neg. north, pos. south)"""
         dx, dy = direction.value
-        x = self.pos_x + dx
-        y = self.pos_y + dy
-        unit = grid.get(x, y)
+        new_x = self.pos_x + dx
+        new_y = self.pos_y + dy
+        unit = grid.get(new_x, new_y)
         if unit == Unit.WALL:
             return False
         return True
