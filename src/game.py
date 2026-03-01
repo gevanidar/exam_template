@@ -14,6 +14,9 @@ class Input(Enum):
     EAST = "d"
     SOUTH = "s"
     WEST = "a"
+    INVENTORY = "i"
+    QUIT = "q"
+    EXIT = "x"
 
 
 class Game:
@@ -70,9 +73,13 @@ class Game:
 game = Game()
 
 
-command = "a"
-# Loopa tills användaren trycker Q eller X.
-while command.casefold() not in ["q", "x"]:
+class State(Enum):
+    RUNNING = "running"
+    QUIT = "QUIT"
+
+
+state = State.RUNNING
+while State.RUNNING == state:
     game.print_status()
 
     commands = input("Use WASD to move, Q/X to quit. ")
@@ -91,8 +98,14 @@ while command.casefold() not in ["q", "x"]:
                 game.move_player(Direction.SOUTH)
             case Input.WEST.value:
                 game.move_player(Direction.WEST)
-            case "i":
+            case Input.INVENTORY.value:
                 print(game.player.inventory)
+            case Input.EXIT.value:
+                state = State.QUIT
+                break
+            case Input.QUIT.value:
+                state = State.QUIT
+                break
 
 
 # Hit kommer vi när while-loopen slutar
