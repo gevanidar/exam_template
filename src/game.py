@@ -26,21 +26,23 @@ command = "a"
 while command.casefold() not in ["q", "x"]:
     print_status(g)
 
-    command = input("Use WASD to move, Q/X to quit. ")
-    command = command.casefold()[:1]
+    commands = input("Use WASD to move, Q/X to quit. ")
+    commands = commands.casefold()
+    for i in range(len(commands)):
+        command = commands[i]
 
-    if command == "d" and player.can_move(1, 0, g):  # move right
-        print("Moving player")
-        # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
-        maybe_item = g.get(player.pos_x + 1, player.pos_y)
-        player.move(1, 0)
+        if command == "d" and player.can_move(1, 0, g):  # move right
+            print("Moving player")
+            # TODO: skapa funktioner, så vi inte behöver upprepa så mycket kod för riktningarna "W,A,S"
+            maybe_item = g.get(player.pos_x + 1, player.pos_y)
+            player.move(1, 0)
 
-        if isinstance(maybe_item, Item):
-            # we found something
-            score += maybe_item.points
-            print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
-            # g.set(player.pos_x, player.pos_y, Unit.EMPTY)
-            g.clear(player.pos_x, player.pos_y)
+            if isinstance(maybe_item, Item):
+                # we found something
+                score += maybe_item.points
+                print(f"You found a {maybe_item.name}, +{maybe_item.points} points.")
+                # g.set(player.pos_x, player.pos_y, Unit.EMPTY)
+                g.clear(player.pos_x, player.pos_y)
 
 
 # Hit kommer vi när while-loopen slutar
