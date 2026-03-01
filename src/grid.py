@@ -5,7 +5,7 @@ from unit import Unit
 class Grid:
     """Representerar spelplanen. Du kan ändra standardstorleken och tecknen för olika rutor."""
 
-    width = 36
+    width = 20
     height = 12
 
     def __init__(self):
@@ -48,13 +48,41 @@ class Grid:
 
     def make_walls(self):
         """Skapa väggar runt hela spelplanen"""
-        for i in range(self.height):
-            self.set(0, i, Unit.WALL)
-            self.set(self.width - 1, i, Unit.WALL)
+        self.make_room(0, 0, self.width - 1, self.height - 1)
 
-        for j in range(1, self.width - 1):
-            self.set(j, 0, Unit.WALL)
-            self.set(j, self.height - 1, Unit.WALL)
+        assert self.width >= 20
+        assert self.height >= 12
+
+        # Hardcoded -> Could be implemented using some smart algorithm
+        self.make_room(0, 0, 5, 5)
+        self.make_room(self.width - 8, 2, self.width - 3, 6)
+        self.make_room(4, self.height - 5, self.width - 3, self.height - 2)
+        self.make_room(7, self.height - 5, self.width - 3, self.height - 2)
+
+        self.clear(3, 5)
+        self.clear(self.width - 8, 4)
+        self.clear(self.width - 6, 6)
+        self.clear(self.width - 6, 7)
+        self.clear(4, self.height - 4)
+        self.clear(8, self.height - 2)
+        self.clear(8, self.height - 1)
+
+    def make_room(self, start_x, start_y, stop_x, stop_y):
+        """Create a room starting at start_x, start_y"""
+        for y in range(start_y, stop_y):
+            if self.is_empty(start_x, y):
+                self.set(start_x, y, Unit.WALL)
+            if self.is_empty(stop_x, y):
+                self.set(stop_x, y, Unit.WALL)
+
+        for x in range(start_x, stop_x):
+            if self.is_empty(x, start_y):
+                self.set(x, start_y, Unit.WALL)
+            if self.is_empty(x, stop_y):
+                self.set(x, stop_y, Unit.WALL)
+
+        if self.is_empty(stop_x, stop_y):
+            self.set(stop_x, stop_y, Unit.WALL)
 
     # Används i filen pickups.py
     def get_random_x(self):

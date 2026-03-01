@@ -34,15 +34,20 @@ class Game:
         width, height = g.size()
         assert width > 10
         assert height > 10
+        g.make_walls()
+
         dx = 2
         dy = 2
         mid_x = floor(width / 2)
         mid_y = floor(height / 2)
-        x = random.randint(mid_x - dx, mid_x + dx)
-        y = random.randint(mid_y - dy, mid_y + dy)
+        x = 0
+        y = 0
+        while not g.is_empty(x, y):
+            x = random.randint(mid_x - dx, mid_x + dx)
+            y = random.randint(mid_y - dy, mid_y + dy)
         player = Player(x, y)
         g.set_player(player)
-        g.make_walls()
+
         randomize(g)
 
         self.grid = g

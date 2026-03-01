@@ -25,7 +25,7 @@ Börja med att läsa igenom hela uppgiften, sedan hittar du länk till ett kodpr
 - [X] Inventory - alla saker som man plockar upp ska sparas i en lista.
 - [X] Nytt kommando: "i", skriver ut innehållet i spelarens inventory.
 - [X] The floor is lava - för varje steg man går ska man tappa 1 poäng.
-- [ ] Använd for-loopar för att skapa flera, sammanhängande väggar på kartan. Se till att det inte skapas några rum som man inte kan komma in i. Gör detta i filen grid.py.
+- [X] Använd for-loopar för att skapa flera, sammanhängande väggar på kartan. Se till att det inte skapas några rum som man inte kan komma in i. Gör detta i filen grid.py.
 
 ## Version 2 - nice to have
 - [ ] Fällor - introducera valfri fälla till spelplanen. Om man går på en ruta med en fälla ska man förlora 10 poäng. Fällan ska ligga kvar så att man kan falla i den flera gånger.
