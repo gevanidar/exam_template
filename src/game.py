@@ -3,6 +3,7 @@ import random
 from math import floor
 
 from grid import Grid
+from trap import Trap
 from player import Player
 from pickups import randomize, add_random_pickup
 from item import Item
@@ -24,6 +25,7 @@ class Input(Enum):
     EXIT = "x"
     JUMP = "j"
     BOMB = "b"
+    TRAP = "t"
 
     def __str__(self):
         return self.value.upper()
@@ -66,6 +68,14 @@ class Game:
 
         randomize(g)
 
+        x = 0
+        y = 0
+        while not g.is_empty(x, y):
+            x = random.randint(0, width)
+            y = random.randint(0, height)
+
+        g.set_trap(x, y)
+
         self.grid = g
         self.player = player
         self.score = 0
@@ -80,6 +90,23 @@ class Game:
         """
         bomb = Bomb(self.player.pos_x, self.player.pos_y)
         self.bombs.append(bomb)
+
+    def disarm_trap(self):
+        """
+        Disarm any trap at the player position, or on the 8 neighboring grid units.
+        """
+        x, y = self.player.pos_x, self.player.pos_y
+
+        x_min = max(0, x - 1)
+        y_min = max(0, y - 1)
+
+        x_max = min(x + 1, self.grid.width)
+        y_max = min(y + 1, self.grid.height)
+
+        for x in range(x_min, x_max + 1):
+            for y in range(y_min, y_max + 1):
+                if self.grid.is_trap(x, y):
+                    self.grid.clear(x, y)
 
     def check_bombs(self):
         """
@@ -147,6 +174,9 @@ class Game:
             self.player.add_to_inventory(item)
             self.score += item.points
             self.grid.clear(self.player.pos_x, self.player.pos_y)
+        if isinstance(maybe_item, Trap):
+            trap = maybe_item
+            self.score += trap.points
 
         self.apply_lava()
 
@@ -211,6 +241,8 @@ class Game:
                         break
                     case Input.BOMB.value:
                         self.place_bomb()
+                    case Input.TRAP.value:
+                        self.disarm_trap()
                     case _:
                         matched = False
 

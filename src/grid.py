@@ -1,5 +1,7 @@
 import random
+
 from unit import Unit
+from trap import Trap
 
 
 class Grid:
@@ -40,6 +42,11 @@ class Grid:
         Player: the player
         """
         self.player = player
+
+    def set_trap(self, x, y):
+        trap = Trap()
+
+        self.set(x, y, trap)
 
     def destroy(self, x, y):
         """
@@ -141,6 +148,14 @@ class Grid:
         Return: True if position is empty
         """
         return self.get(x, y) == Unit.EMPTY
+
+    def is_trap(self, x, y):
+        """eturnerar True if the position contains and obstacle.\n
+        x= The horizontal position.\n
+        y= The vertical position.\n
+        Return: True if position contains a Trap
+        """
+        return isinstance(self.get(x, y), Trap)
 
     def is_obstacle(self, x, y):
         """eturnerar True if the position contains and obstacle.\n

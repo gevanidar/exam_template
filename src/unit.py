@@ -6,3 +6,4 @@ class Unit(Enum):
     WALL = "■"  # Tecken för en ogenomtränglig vägg
     ITEM = "?"
     PLAYER = "@"
+    TRAP = "!"
