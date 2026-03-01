@@ -18,6 +18,9 @@ class Input(Enum):
     QUIT = "q"
     EXIT = "x"
 
+    def __str__(self):
+        return self.value.upper()
+
 
 class Game:
     def __init__(self):
@@ -82,7 +85,9 @@ state = State.RUNNING
 while State.RUNNING == state:
     game.print_status()
 
-    commands = input("Use WASD to move, Q/X to quit. ")
+    commands = input(
+        f"Use {Input.NORTH}{Input.EAST}{Input.SOUTH}{Input.WEST} to move, {Input.QUIT}/{Input.EXIT} to quit. "
+    )
     commands = commands.casefold()
     print(Input.NORTH.value)
     for i in range(len(commands)):
@@ -108,5 +113,4 @@ while State.RUNNING == state:
                 break
 
 
-# Hit kommer vi när while-loopen slutar
 print("Thank you for playing!")
