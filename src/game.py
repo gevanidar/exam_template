@@ -22,6 +22,11 @@ class Input(Enum):
         return self.value.upper()
 
 
+class State(Enum):
+    RUNNING = "running"
+    QUIT = "QUIT"
+
+
 class Game:
     def __init__(self):
         """Initialize the game."""
@@ -43,6 +48,7 @@ class Game:
         self.grid = g
         self.player = player
         self.score = 0
+        self.state = State.RUNNING
 
     def move_player(self, direction: Direction):
         """Move the player on the grid in the direction\n
@@ -72,45 +78,38 @@ class Game:
         print(f"You have {self.score} points.")
         print(self.grid)
 
+    def start(self):
+        while State.RUNNING == self.state:
+            game.print_status()
+
+            commands = input(
+                f"Use {Input.NORTH}{Input.EAST}{Input.SOUTH}{Input.WEST} to move, {Input.QUIT}/{Input.EXIT} to quit. "
+            )
+            commands = commands.casefold()
+            for i in range(len(commands)):
+                command = commands[i]
+
+                match command:
+                    case Input.NORTH.value:
+                        game.move_player(Direction.NORTH)
+                    case Input.EAST.value:
+                        game.move_player(Direction.EAST)
+                    case Input.SOUTH.value:
+                        game.move_player(Direction.SOUTH)
+                    case Input.WEST.value:
+                        game.move_player(Direction.WEST)
+                    case Input.INVENTORY.value:
+                        print(game.player.inventory)
+                    case Input.EXIT.value:
+                        self.state = State.QUIT
+                        break
+                    case Input.QUIT.value:
+                        self.state = State.QUIT
+                        break
+
 
 game = Game()
 
-
-class State(Enum):
-    RUNNING = "running"
-    QUIT = "QUIT"
-
-
-state = State.RUNNING
-while State.RUNNING == state:
-    game.print_status()
-
-    commands = input(
-        f"Use {Input.NORTH}{Input.EAST}{Input.SOUTH}{Input.WEST} to move, {Input.QUIT}/{Input.EXIT} to quit. "
-    )
-    commands = commands.casefold()
-    print(Input.NORTH.value)
-    for i in range(len(commands)):
-        command = commands[i]
-
-        print(f"Processing command {command}")
-        match command:
-            case Input.NORTH.value:
-                game.move_player(Direction.NORTH)
-            case Input.EAST.value:
-                game.move_player(Direction.EAST)
-            case Input.SOUTH.value:
-                game.move_player(Direction.SOUTH)
-            case Input.WEST.value:
-                game.move_player(Direction.WEST)
-            case Input.INVENTORY.value:
-                print(game.player.inventory)
-            case Input.EXIT.value:
-                state = State.QUIT
-                break
-            case Input.QUIT.value:
-                state = State.QUIT
-                break
-
+game.start()
 
 print("Thank you for playing!")
