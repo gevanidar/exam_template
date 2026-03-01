@@ -24,13 +24,7 @@ class TestGrid(unittest.TestCase):
         """Test is player can pickup an item"""
         player = Player(2, 1)
         self.assertEqual(0, len(player.inventory.items))
-        g = Grid()
-        x = 2
-        y = 2
         item = Item("carrot")
-        g.set(x, y, item)
-        g.set_player(player)
-
-        player.move(Direction.SOUTH)
+        player.add_to_inventory(item)
         self.assertEqual(1, len(player.inventory.items))
         self.assertEqual(item, player.inventory.get(0))
