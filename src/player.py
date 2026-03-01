@@ -1,5 +1,11 @@
+from .unit import Unit
+
+
 class Player:
-    marker = "@"
+    marker = Unit.PLAYER
+
+    def __str__(self):
+        return self.marker.value
 
     def __init__(self, x, y):
         self.pos_x = x

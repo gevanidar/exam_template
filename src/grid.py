@@ -1,11 +1,5 @@
 import random
-from enum import Enum
-
-
-class Unit(Enum):
-    EMPTY = "."  # Tecken för en tom ruta
-    WALL = "■"  # Tecken för en ogenomtränglig vägg
-    ITEM = "?"
+from .unit import Unit
 
 
 class Grid:
@@ -43,7 +37,7 @@ class Grid:
             row = self.data[y]
             for x in range(len(row)):
                 if x == self.player.pos_x and y == self.player.pos_y:
-                    xs += "@"
+                    xs += f"{self.player}"
                 else:
                     xs += str(row[x].value)
             xs += "\n"
