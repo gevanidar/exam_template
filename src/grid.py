@@ -3,7 +3,7 @@ import random
 from unit import Unit
 from trap import Trap
 from bomb import Bomb
-from explosion import Explosion
+from explosion import explosions
 
 
 class Grid:
@@ -18,7 +18,6 @@ class Grid:
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
         self.bombs = []
-        self.explosions = []
 
     def randomized_empty_position(self, x_min, y_min, x_max, y_max):
         """Get an empty position (x,y) from the grid.\n
@@ -69,13 +68,6 @@ class Grid:
         """
         self.bombs.append(bomb)
 
-    def put_explosion(self, explosion: Explosion):
-        """
-        Add a bomb to the bombs list
-        Bomb: the bomb
-        """
-        self.explosions.append(explosion)
-
     def tic_bombs(self):
         """
         Tic all bombs
@@ -123,11 +115,13 @@ class Grid:
         if not self.boundary_check(x, y):
             return
         unit = self.get(x, y)
-        print(unit)
         if Unit.EMPTY != unit:
-            print(f"Bomb destroyed {unit} at position ({x},{y})")
-
-        self.put_explosion(Explosion(x, y, index))
+            if isinstance(unit, Unit):
+                print(f"Bomb destroyed {unit} at position ({x},{y})")
+            else:
+                print(f"Bomb destroyed {unit.value} at position ({x},{y})")
+        self.clear(x, y)
+        self.set(x, y, explosions[index])
 
     def clear(self, x, y):
         """Clears any positon (x,y) on the grid"""
@@ -152,6 +146,9 @@ class Grid:
                     xs += f"{self.player}"
                 else:
                     data = row[x]
+                    for explosion in explosions:
+                        if data == explosion:
+                            self.data[y][x] = Unit.EMPTY
                     value = str(data.value)
                     for bomb in self.bombs:
                         bomb: Bomb = bomb
