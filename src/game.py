@@ -88,9 +88,11 @@ class Game:
         x_max = min(bomb.x + 1, self.grid.width)
         y_max = min(bomb.y + 1, self.grid.height)
 
+        index = 0
         for x in range(x_min, x_max + 1):
             for y in range(y_min, y_max + 1):
-                self.grid.destroy(x, y)
+                self.grid.destroy(x, y, index)
+                index += 1
         if self.player.pos_x < x_min or x_max < self.player.pos_x:
             return
 
