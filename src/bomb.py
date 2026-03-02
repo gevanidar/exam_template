@@ -14,6 +14,9 @@ class Bomb:
         self.x = x
         self.y = y
 
+    def __str__(self):
+        return f"{self.time}"
+
     def tic(self):
         """
         Reduces the time until bomb explodes.

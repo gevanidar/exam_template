@@ -48,14 +48,13 @@ class Game:
         self.state = GameState.ACTIVE
         self.turn = 0
         self.refresh_rate = 25
-        self.bombs = []
 
     def place_bomb(self):
         """
         Allows placement of a bomb at player position.
         """
         bomb = Bomb(self.player.pos_x, self.player.pos_y)
-        self.bombs.append(bomb)
+        self.grid.put_bomb(bomb)
 
     def disarm_trap(self):
         """
@@ -78,26 +77,17 @@ class Game:
         """
         Check all bombs in the game to determine if any bomb is about to explode.
         """
-        index_to_remove = -1
-        for index in range(len(self.bombs)):
-            bomb: Bomb = self.bombs[index]
-            bomb.tic()
-            if bomb.is_exploding():
-                index_to_remove = index
+        self.grid.tic_bombs()
 
-        if index_to_remove == -1:
+        bomb = self.grid.explode_bomb()
+        if not bomb:
             return
-        bomb = self.bombs[index_to_remove]
-        print("KABOOM!")
-        self.bombs.remove(bomb)
-
-        self.grid.clear(bomb.x, bomb.y)
 
         x_min = max(0, bomb.x - 1)
         y_min = max(0, bomb.y - 1)
-
         x_max = min(bomb.x + 1, self.grid.width)
         y_max = min(bomb.y + 1, self.grid.height)
+
         for x in range(x_min, x_max + 1):
             for y in range(y_min, y_max + 1):
                 self.grid.destroy(x, y)

@@ -2,6 +2,7 @@ import random
 
 from unit import Unit
 from trap import Trap
+from bomb import Bomb
 
 
 class Grid:
@@ -15,6 +16,7 @@ class Grid:
         self.data = [
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
+        self.bombs = []
 
     def randomized_empty_position(self, x_min, y_min, x_max, y_max):
         """Get an empty position (x,y) from the grid.\n
@@ -58,7 +60,47 @@ class Grid:
         """
         self.player = player
 
+    def put_bomb(self, bomb):
+        """
+        Add a bomb to the bombs list
+        Bomb: the bomb
+        """
+        self.bombs.append(bomb)
+
+    def tic_bombs(self):
+        """
+        Tic all bombs
+        """
+        number_of_bombs = len(self.bombs)
+        if number_of_bombs == 0:
+            return
+
+        for index in range(len(self.bombs)):
+            bomb: Bomb = self.bombs[index]
+            bomb.tic()
+
+    def explode_bomb(self):
+        """
+        Explode the bomb with the lowest time left (first in list)
+        """
+        number_of_bombs = len(self.bombs)
+        if number_of_bombs == 0:
+            return None
+
+        bomb: Bomb = self.bombs[0]
+        if not bomb.is_exploding():
+            return None
+
+        self.bombs = self.bombs[1:]
+        self.clear(bomb.x, bomb.y)
+        print("KABOOM!")
+        return bomb
+
     def set_trap(self, x, y):
+        """
+        Set the trap on the grid
+        Trap: the trap
+        """
         trap = Trap()
 
         self.set(x, y, trap)
@@ -99,7 +141,13 @@ class Grid:
                 if x == self.player.pos_x and y == self.player.pos_y:
                     xs += f"{self.player}"
                 else:
-                    xs += str(row[x].value)
+                    value = str(row[x].value)
+                    for bomb in self.bombs:
+                        bomb: Bomb = bomb
+                        if x == bomb.x and y == bomb.y:
+                            value = f"{bomb}"
+                            break
+                    xs += value
             xs += "\n"
         return xs
 
@@ -111,11 +159,13 @@ class Grid:
         assert self.height >= 12
 
         # Hardcoded -> Could be implemented using some smart algorithm
+        # Walls for the rooms
         self.make_room(0, 0, 5, 5)
         self.make_room(self.width - 8, 2, self.width - 3, 6)
         self.make_room(4, self.height - 5, self.width - 3, self.height - 2)
         self.make_room(7, self.height - 5, self.width - 3, self.height - 2)
 
+        # "Doors" for the rooms
         self.clear(3, 5)
         self.clear(self.width - 8, 4)
         self.clear(self.width - 6, 6)
