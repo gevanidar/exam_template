@@ -1,3 +1,7 @@
+"""
+Trap module used for displaying a trap inside the game
+"""
+
 from unit import Unit
 
 
