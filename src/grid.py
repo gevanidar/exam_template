@@ -19,6 +19,7 @@ class Grid:
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
         self.bombs = []
+        self.player = None
 
     def randomized_empty_position(self, x_min, y_min, x_max, y_max):
         """Get an empty position (x,y) from the grid.
@@ -48,7 +49,7 @@ class Grid:
     def get(self, x, y):
         """Get the Unit data from position (x,y)."""
         if not self.boundary_check(x, y):
-            return
+            return None
         return self.data[y][x]
 
     def set(self, x, y, value):
@@ -77,8 +78,7 @@ class Grid:
         if number_of_bombs == 0:
             return
 
-        for index in range(len(self.bombs)):
-            bomb: Bomb = self.bombs[index]
+        for bomb in self.bombs:
             bomb.tic()
 
     def explode_bomb(self):
@@ -130,18 +130,17 @@ class Grid:
 
         Return: True if both x and y are within the grid boundaries.
         """
-        return x >= 0 and x < self.width and y >= 0 and y < self.height
+        return 0 <= x < self.width and 0 <= y < self.height
 
     def __str__(self):
         """Display the grid."""
         xs = ""
-        for y in range(len(self.data)):
-            row = self.data[y]
-            for x in range(len(row)):
-                if x == self.player.pos_x and y == self.player.pos_y:
+        for y, row in enumerate(self.data):
+            for x, col in enumerate(row):
+                if self.player and x == self.player.pos_x and y == self.player.pos_y:
                     xs += f"{self.player}"
                 else:
-                    value = str(row[x].value)
+                    value = str(col.value)
                     for bomb in self.bombs:
                         bomb: Bomb = bomb
                         if x == bomb.x and y == bomb.y:

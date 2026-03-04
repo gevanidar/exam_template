@@ -17,3 +17,10 @@ class Item:
         self.name = name
         self.unit = unit
         self.value = unit.value
+
+    def get_points(self):
+        """Get the number of points gained when picking up an item.
+
+        Returns: the number of points from picking up an item.
+        """
+        return self.points

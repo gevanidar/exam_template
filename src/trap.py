@@ -16,3 +16,10 @@ class Trap:
         """
         self.unit = unit
         self.value = unit.value
+
+    def get_points(self):
+        """Get the number of points lost when stepping on a trap.
+
+        Returns: the number of points for stepping on a trap.
+        """
+        return self.points

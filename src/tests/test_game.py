@@ -1,11 +1,15 @@
+"""Module used for testing the game."""
+
 import unittest
 
 from ..game import Game
 
 
-class TestGrid(unittest.TestCase):
+class TestGame(unittest.TestCase):
+    """Test class for testing Game functionality."""
+
     def test_lava_on_move(self):
-        """Test apply lava reducing score"""
+        """Test apply lava reducing score."""
         game = Game()
         self.assertEqual(0, game.score)
         game.apply_lava()

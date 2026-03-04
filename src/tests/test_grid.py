@@ -1,11 +1,15 @@
+"""Module for testing the Grid."""
+
 import unittest
 from ..grid import Grid
 from ..unit import Unit
 
 
 class TestGrid(unittest.TestCase):
+    """Test class for the Grid class."""
+
     def test_position_does_contain_an_obstacle(self):
-        """Tests if position does contain an obstacle"""
+        """Tests if position does contain an obstacle."""
         g = Grid()
         x = 2
         y = 2
@@ -15,7 +19,7 @@ class TestGrid(unittest.TestCase):
         self.assertEqual(True, is_obstacle)
 
     def test_position_does_not_contain_an_obstacle(self):
-        """Tests if position does not contain an obstacle"""
+        """Tests if position does not contain an obstacle."""
         g = Grid()
         x = 2
         y = 2

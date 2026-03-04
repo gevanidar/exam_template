@@ -97,11 +97,11 @@ class Game:
 
         direction = the direction to move the player.
         """
-        dir = direction.value
+        direction_to_move = direction.value
         old_x = self.player.pos_x
         old_y = self.player.pos_y
-        new_x = old_x + dir[0]
-        new_y = old_y + dir[1]
+        new_x = old_x + direction_to_move[0]
+        new_y = old_y + direction_to_move[1]
         inside_grid = self.grid.boundary_check(new_x, new_y)
         if not inside_grid:
             print("I cannot move outside of the map")
@@ -120,13 +120,13 @@ class Game:
         self.check_bombs()
 
         if isinstance(maybe_item, Item):
-            item = maybe_item
+            item: Item = maybe_item
             self.player.add_to_inventory(item)
-            self.score += item.points
+            self.score += item.get_points()
             self.grid.clear(self.player.pos_x, self.player.pos_y)
         if isinstance(maybe_item, Trap):
-            trap = maybe_item
-            self.score += trap.points
+            trap: Trap = maybe_item
+            self.score += trap.get_points()
 
         self.apply_lava()
 
@@ -210,6 +210,8 @@ class Game:
                         matched = False
 
                 if matched:
+                    # This actually means that you can stand still for 25 turns.
+                    # And a new pickup will be spawned.
                     self.turn += 1
 
                 if self.turn % self.refresh_rate == 0:
