@@ -1,3 +1,5 @@
+"""Module for controlling the game flow and logic."""
+
 from math import floor
 
 from grid import Grid
@@ -13,9 +15,7 @@ from input import Input
 
 
 class Game:
-    """
-    Game controls the logic and rules for the game.
-    """
+    """Game controls the logic and rules for the game."""
 
     def __init__(self):
         """Initialize the game."""
@@ -50,16 +50,12 @@ class Game:
         self.refresh_rate = 25
 
     def place_bomb(self):
-        """
-        Allows placement of a bomb at player position.
-        """
+        """Allow placement of a bomb at player position."""
         bomb = Bomb(self.player.pos_x, self.player.pos_y)
         self.grid.put_bomb(bomb)
 
     def disarm_trap(self):
-        """
-        Disarm any trap at the player position, or on the 8 neighboring grid units.
-        """
+        """Disarm any trap at the player position, or on the 8 neighboring grid units."""
         x, y = self.player.pos_x, self.player.pos_y
 
         x_min = max(0, x - 1)
@@ -74,9 +70,7 @@ class Game:
                     self.grid.clear(x, y)
 
     def check_bombs(self):
-        """
-        Check all bombs in the game to determine if any bomb is about to explode.
-        """
+        """Check all bombs in the game to determine if any bomb is about to explode."""
         self.grid.tic_bombs()
 
         bomb = self.grid.explode_bomb()
@@ -100,8 +94,10 @@ class Game:
         self.state = GameState.LOSS
 
     def move_player(self, direction: Direction):
-        """Move the player on the grid in the direction\n
-        direction = the direction to move the player"""
+        """Move the player on the grid in the direction.
+
+        direction = the direction to move the player.
+        """
         dir = direction.value
         old_x = self.player.pos_x
         old_y = self.player.pos_y
@@ -139,20 +135,16 @@ class Game:
             self.move_player(direction)
 
     def apply_lava(self):
-        """
-        The floor is made of lava, walking int lava reduces the score by 1.
-        """
+        """Floor is made of lava, walking int lava reduces the score by 1."""
         self.score -= 1
 
     def print_status(self):
-        """Displays the score and the grid"""
+        """Display the score and the grid."""
         print(f"You have {self.score} points.")
         print(self.grid)
 
     def start(self):
-        """
-        Starts the game loop
-        """
+        """Start the game loop."""
         while GameState.ACTIVE == self.state:
             self.print_status()
 

@@ -1,3 +1,5 @@
+"""Main entry point for the program."""
+
 from game import Game
 
 # Main entry point for the game
