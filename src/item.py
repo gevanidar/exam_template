@@ -1,6 +1,6 @@
 """Module for representing an item in the game."""
 
-from unit import Unit
+from .unit import Unit
 
 
 class Item:

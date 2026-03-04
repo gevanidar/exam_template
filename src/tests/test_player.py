@@ -1,9 +1,9 @@
 import unittest
-from grid import Grid
-from unit import Unit
-from player import Player
-from item import Item
-from direction import Direction
+from ..grid import Grid
+from ..unit import Unit
+from ..player import Player
+from ..item import Item
+from ..direction import Direction
 
 
 class TestGrid(unittest.TestCase):

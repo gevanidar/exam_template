@@ -1,5 +1,5 @@
 import unittest
-from bomb import Bomb
+from ..bomb import Bomb
 
 
 class TestGrid(unittest.TestCase):

@@ -1,7 +1,6 @@
 import unittest
 
-from direction import Direction
-from game import Game
+from ..game import Game
 
 
 class TestGrid(unittest.TestCase):

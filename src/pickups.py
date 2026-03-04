@@ -1,8 +1,8 @@
 """Helped module for generating pickups on game grid."""
 
 import random
-from item import Item
-from grid import Grid
+from .item import Item
+from .grid import Grid
 
 pickups = [
     Item("carrot"),

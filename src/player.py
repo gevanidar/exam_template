@@ -1,10 +1,9 @@
 """The player class used in the game."""
 
-from unit import Unit
-
-from inventory import Inventory
-from direction import Direction
-from item import Item
+from .unit import Unit
+from .inventory import Inventory
+from .direction import Direction
+from .item import Item
 
 
 class Player:

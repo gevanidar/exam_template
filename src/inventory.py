@@ -1,6 +1,6 @@
 """Modle for representing an inventory that can contain items."""
 
-from item import Item
+from .item import Item
 
 
 class Inventory:

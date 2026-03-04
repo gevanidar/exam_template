@@ -1,6 +1,6 @@
 import unittest
-from grid import Grid
-from unit import Unit
+from ..grid import Grid
+from ..unit import Unit
 
 
 class TestGrid(unittest.TestCase):

@@ -2,16 +2,15 @@
 
 from math import floor
 
-from grid import Grid
-from trap import Trap
-from player import Player
-from pickups import randomize, add_random_pickup
-from item import Item
-from direction import Direction
-from bomb import Bomb
-
-from gamestate import GameState
-from input import Input
+from .grid import Grid
+from .trap import Trap
+from .player import Player
+from .pickups import randomize, add_random_pickup
+from .item import Item
+from .direction import Direction
+from .bomb import Bomb
+from .gamestate import GameState
+from .input import Input
 
 
 class Game:
@@ -149,18 +148,22 @@ class Game:
             self.print_status()
 
             commands = input(
-                f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move, {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
-                + f'Commands will execute in succession, "{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}" then the player will {Input.MOVE_NORTH.description()} twice then {Input.MOVE_EAST.description()} once (if possible).\n'
+                f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}"
+                + f"{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move,"
+                + " {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
+                + "Commands will execute in succession,"
+                + f'{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}"'
+                + f" then the player will {Input.MOVE_NORTH.description()}"
+                + f" twice then {Input.MOVE_EAST.description()} once (if possible).\n"
                 + f"{Input.SHOW_HELP.explanation()}.\n"
                 + "Your commands: "
             )
             commands = commands.casefold()
             print("--------------------------------------")
             print(f"Log from executing {commands}:")
-            for i in range(len(commands)):
+            for command in commands:
                 if self.state != GameState.ACTIVE:
                     break
-                command = commands[i]
 
                 matched = True
                 match command:

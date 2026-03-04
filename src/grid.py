@@ -2,9 +2,9 @@
 
 import random
 
-from unit import Unit
-from trap import Trap
-from bomb import Bomb
+from .unit import Unit
+from .trap import Trap
+from .bomb import Bomb
 
 
 class Grid:
