@@ -66,7 +66,6 @@ class Player:
         item= The item to add to the player inventory.
         """
         self.inventory.add(item)
-        print(f"You found a {item.name}, +{item.points} points.")
 
     def activate_jump(self):
         """Activate the player special jump ability."""

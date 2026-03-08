@@ -81,9 +81,11 @@ class Game:
         x_max = min(bomb.x + 1, self.grid.width)
         y_max = min(bomb.y + 1, self.grid.height)
 
+        index = 0
         for x in range(x_min, x_max + 1):
             for y in range(y_min, y_max + 1):
-                self.grid.destroy(x, y)
+                self.grid.destroy(x, y, index)
+                index += 1
         if self.player.pos_x < x_min or x_max < self.player.pos_x:
             return
 
@@ -122,6 +124,7 @@ class Game:
         if isinstance(maybe_item, Item):
             item: Item = maybe_item
             self.player.add_to_inventory(item)
+            print(f"You found a {item.name}, +{item.points} points.")
             self.score += item.get_points()
             self.grid.clear(self.player.pos_x, self.player.pos_y)
         if isinstance(maybe_item, Trap):
@@ -150,7 +153,7 @@ class Game:
             commands = input(
                 f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}"
                 + f"{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move,"
-                + " {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
+                + f" {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
                 + "Commands will execute in succession,"
                 + f'{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}"'
                 + f" then the player will {Input.MOVE_NORTH.description()}"

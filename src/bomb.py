@@ -22,10 +22,6 @@ class Bomb:
     def tic(self):
         """Reduces the time until bomb explodes."""
         self.time -= 1
-        print(
-            "Bomb fuse is burning."
-            + f"Move away from the ({self.x},{self.y}) area ({self.time} moves left)"
-        )
 
     def is_exploding(self):
         """Check if the bomb explodes.

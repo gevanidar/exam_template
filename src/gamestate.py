@@ -1,5 +1,4 @@
-"""Game state for if the game is currently active,
-if the player stopped the game or if the player lost."""
+"""Game state of the game."""
 
 from enum import Enum
 
