@@ -1,9 +1,11 @@
+"""Module used for representing the grid and rules on the grid."""
+
 import random
 
-from unit import Unit
-from trap import Trap
-from bomb import Bomb
-from explosion import explosions
+from .explosion import explosions
+from .unit import Unit
+from .trap import Trap
+from .bomb import Bomb
 
 
 class Grid:
@@ -13,19 +15,22 @@ class Grid:
     height = 12
 
     def __init__(self):
-        """Create an empty grid"""
+        """Create an empty grid."""
         self.data = [
             [Unit.EMPTY for y in range(self.width)] for z in range(self.height)
         ]
         self.bombs = []
+        self.player = None
 
     def randomized_empty_position(self, x_min, y_min, x_max, y_max):
-        """Get an empty position (x,y) from the grid.\n
-        x_min= the min x value to select from.\n
-        y_min= the min y value to select from.\n
-        x_max= the max x value to select from.\n
-        y_max= the max y value to select from.\n
-        Return: The position (x,y)"""
+        """Get an empty position (x,y) from the grid.
+
+        x_min= the min x value to select from.
+        y_min= the min y value to select from.
+        x_max= the max x value to select from.
+        y_max= the max y value to select from.
+        Return: The position (x,y)
+        """
         assert self.boundary_check(x_min, y_min)
         assert self.boundary_check(x_max, y_max)
         x = 0
@@ -36,54 +41,49 @@ class Grid:
         return x, y
 
     def size(self):
-        """
-        The size of the grid
-        Return: A tuple of the (width, height)
+        """Size of the grid.
+
+        Return: A tuple of the (width, height).
         """
         return self.width, self.height
 
     def get(self, x, y):
-        """Get the Unit data from position (x,y)"""
+        """Get the Unit data from position (x,y)."""
         if not self.boundary_check(x, y):
-            return
+            return None
         return self.data[y][x]
 
     def set(self, x, y, value):
-        """Set the Unit data on position (x,y)"""
+        """Set the Unit data on position (x,y)."""
         if not self.boundary_check(x, y):
             return
         self.data[y][x] = value
 
     def set_player(self, player):
-        """
-        Set the player on the grid
-        Player: the player
+        """Set the player on the grid.
+
+        Player: the player.
         """
         self.player = player
 
     def put_bomb(self, bomb):
-        """
-        Add a bomb to the bombs list
-        Bomb: the bomb
+        """Add a bomb to the bombs list.
+
+        Bomb: the bomb.
         """
         self.bombs.append(bomb)
 
     def tic_bombs(self):
-        """
-        Tic all bombs
-        """
+        """Tic all bombs."""
         number_of_bombs = len(self.bombs)
         if number_of_bombs == 0:
             return
 
-        for index in range(len(self.bombs)):
-            bomb: Bomb = self.bombs[index]
+        for bomb in self.bombs:
             bomb.tic()
 
     def explode_bomb(self):
-        """
-        Explode the bomb with the lowest time left (first in list)
-        """
+        """Explode the bomb with the lowest time left (first in list)."""
         number_of_bombs = len(self.bombs)
         if number_of_bombs == 0:
             return None
@@ -98,9 +98,9 @@ class Grid:
         return bomb
 
     def set_trap(self, x, y):
-        """
-        Set the trap on the grid
-        Trap: the trap
+        """Set the trap on the grid.
+
+        Trap: the trap.
         """
         trap = Trap()
 
@@ -109,8 +109,8 @@ class Grid:
     def destroy(self, x, y, index):
         """
         Destoy any non-empty unit on the grid at position (x,y).
-        x= The horizontal position
-        y= The vertical position
+        x= The horizontal position.
+        y= The vertical position.
         """
         if not self.boundary_check(x, y):
             return
@@ -124,32 +124,30 @@ class Grid:
         self.set(x, y, explosions[index])
 
     def clear(self, x, y):
-        """Clears any positon (x,y) on the grid"""
+        """Clear any positon (x,y) on the grid."""
         if not self.boundary_check(x, y):
             return
         self.set(x, y, Unit.EMPTY)
 
     def boundary_check(self, x, y):
-        """
-        Check if the position (x,y) is within the grid boundaries.
+        """Check if the position (x,y) is within the grid boundaries.
+
         Return: True if both x and y are within the grid boundaries.
         """
-        return x >= 0 and x < self.width and y >= 0 and y < self.height
+        return 0 <= x < self.width and 0 <= y < self.height
 
     def __str__(self):
-        """Displays the grid"""
+        """Display the grid."""
         xs = ""
-        for y in range(len(self.data)):
-            row = self.data[y]
-            for x in range(len(row)):
-                if x == self.player.pos_x and y == self.player.pos_y:
+        for y, row in enumerate(self.data):
+            for x, col in enumerate(row):
+                if self.player and x == self.player.pos_x and y == self.player.pos_y:
                     xs += f"{self.player}"
                 else:
-                    data = row[x]
                     for explosion in explosions:
                         if data == explosion:
                             self.data[y][x] = Unit.EMPTY
-                    value = str(data.value)
+                    value = str(col.value)
                     for bomb in self.bombs:
                         bomb: Bomb = bomb
                         if x == bomb.x and y == bomb.y:
@@ -160,7 +158,7 @@ class Grid:
         return xs
 
     def make_walls(self):
-        """Creates walls and rooms onthe grid."""
+        """Create walls and rooms onthe grid."""
         self.make_room(0, 0, self.width - 1, self.height - 1)
 
         assert self.width >= 20
@@ -183,8 +181,8 @@ class Grid:
         self.clear(8, self.height - 1)
 
     def make_room(self, start_x, start_y, stop_x, stop_y):
-        """
-        Helper function for creating a room.
+        """Create a room.
+
         start_x= The left wall  of the room.
         stop_x= The right wall of the room.
         start_y= The upper wall of the room.
@@ -215,25 +213,28 @@ class Grid:
         return random.randint(0, self.height - 1)
 
     def is_empty(self, x, y):
-        """Check if the position (x,y) is empty.\n
-        x= The horizontal position.\n
-        y= The vertical position.\n
+        """Check if the position (x,y) is empty.
+
+        x= The horizontal position.
+        y= The vertical position.
         Return: True if position is empty
         """
         return self.get(x, y) == Unit.EMPTY
 
     def is_trap(self, x, y):
-        """eturnerar True if the position contains and obstacle.\n
-        x= The horizontal position.\n
-        y= The vertical position.\n
-        Return: True if position contains a Trap
+        """Return true if the position contains a trap.
+
+        x= The horizontal position.
+        y= The vertical position.
+        Return: True if position contains a Trap.
         """
         return isinstance(self.get(x, y), Trap)
 
     def is_obstacle(self, x, y):
-        """eturnerar True if the position contains and obstacle.\n
-        x= The horizontal position.\n
-        y= The vertical position.\n
+        """Return true if the position contains and obstacle.
+
+        x= The horizontal position.
+        y= The vertical position.
         Return: True if position contains an obstacle
         """
         return self.get(x, y) == Unit.WALL

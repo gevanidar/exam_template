@@ -4,11 +4,10 @@ Individual assignmet i the course "Programmering med Python".
 
 ## Start the program
 
-To start the program, make sure you are in the `src/`.
+To start the program, make sure you are in the project root (`/`).
 
 ```commandline
-cd src/
-python -m main
+python -m src.main
 ```
 
 
@@ -17,7 +16,6 @@ python -m main
 Running the test suite for the program
 
 ```commandline
-cd src/
 python -m unittest
 ```
 

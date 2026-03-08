@@ -1,6 +1,8 @@
+"""Helped module for generating pickups on game grid."""
+
 import random
-from item import Item
-from grid import Grid
+from .item import Item
+from .grid import Grid
 
 pickups = [
     Item("carrot"),
@@ -15,8 +17,8 @@ pickups = [
 
 
 def randomize(grid: Grid):
-    """
-    Randomize all pickups on the grid.\n
+    """Randomize all pickups on the grid.
+
     grid= The grid to populate with the pickups.
     """
     for item in pickups:
@@ -24,16 +26,16 @@ def randomize(grid: Grid):
 
 
 def add_random_pickup(grid: Grid):
-    """
-    Adds a random pickup item to the grid.\n
+    """Add a random pickup item to the grid.
+
     grid= The grid to populate with the pickup.
     """
     add_pickup(grid, pickups[random.randint(0, len(pickups) - 1)])
 
 
 def add_pickup(grid: Grid, item: Item):
-    """
-    Adds an item to the grid.\n
+    """Add an item to the grid.
+
     grid= The grid to populate with the item.
     """
     x, y = grid.randomized_empty_position(0, 0, grid.width - 1, grid.height - 1)

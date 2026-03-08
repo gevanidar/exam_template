@@ -1,21 +1,20 @@
+"""Module for controlling the game flow and logic."""
+
 from math import floor
 
-from grid import Grid
-from trap import Trap
-from player import Player
-from pickups import randomize, add_random_pickup
-from item import Item
-from direction import Direction
-from bomb import Bomb
-
-from gamestate import GameState
-from input import Input
+from .grid import Grid
+from .trap import Trap
+from .player import Player
+from .pickups import randomize, add_random_pickup
+from .item import Item
+from .direction import Direction
+from .bomb import Bomb
+from .gamestate import GameState
+from .input import Input
 
 
 class Game:
-    """
-    Game controls the logic and rules for the game.
-    """
+    """Game controls the logic and rules for the game."""
 
     def __init__(self):
         """Initialize the game."""
@@ -50,16 +49,12 @@ class Game:
         self.refresh_rate = 25
 
     def place_bomb(self):
-        """
-        Allows placement of a bomb at player position.
-        """
+        """Allow placement of a bomb at player position."""
         bomb = Bomb(self.player.pos_x, self.player.pos_y)
         self.grid.put_bomb(bomb)
 
     def disarm_trap(self):
-        """
-        Disarm any trap at the player position, or on the 8 neighboring grid units.
-        """
+        """Disarm any trap at the player position, or on the 8 neighboring grid units."""
         x, y = self.player.pos_x, self.player.pos_y
 
         x_min = max(0, x - 1)
@@ -74,9 +69,7 @@ class Game:
                     self.grid.clear(x, y)
 
     def check_bombs(self):
-        """
-        Check all bombs in the game to determine if any bomb is about to explode.
-        """
+        """Check all bombs in the game to determine if any bomb is about to explode."""
         self.grid.tic_bombs()
 
         bomb = self.grid.explode_bomb()
@@ -102,13 +95,15 @@ class Game:
         self.state = GameState.LOSS
 
     def move_player(self, direction: Direction):
-        """Move the player on the grid in the direction\n
-        direction = the direction to move the player"""
-        dir = direction.value
+        """Move the player on the grid in the direction.
+
+        direction = the direction to move the player.
+        """
+        direction_to_move = direction.value
         old_x = self.player.pos_x
         old_y = self.player.pos_y
-        new_x = old_x + dir[0]
-        new_y = old_y + dir[1]
+        new_x = old_x + direction_to_move[0]
+        new_y = old_y + direction_to_move[1]
         inside_grid = self.grid.boundary_check(new_x, new_y)
         if not inside_grid:
             print("I cannot move outside of the map")
@@ -127,13 +122,13 @@ class Game:
         self.check_bombs()
 
         if isinstance(maybe_item, Item):
-            item = maybe_item
+            item: Item = maybe_item
             self.player.add_to_inventory(item)
-            self.score += item.points
+            self.score += item.get_points()
             self.grid.clear(self.player.pos_x, self.player.pos_y)
         if isinstance(maybe_item, Trap):
-            trap = maybe_item
-            self.score += trap.points
+            trap: Trap = maybe_item
+            self.score += trap.get_points()
 
         self.apply_lava()
 
@@ -141,36 +136,36 @@ class Game:
             self.move_player(direction)
 
     def apply_lava(self):
-        """
-        The floor is made of lava, walking int lava reduces the score by 1.
-        """
+        """Floor is made of lava, walking int lava reduces the score by 1."""
         self.score -= 1
 
     def print_status(self):
-        """Displays the score and the grid"""
+        """Display the score and the grid."""
         print(f"You have {self.score} points.")
         print(self.grid)
 
     def start(self):
-        """
-        Starts the game loop
-        """
+        """Start the game loop."""
         while GameState.ACTIVE == self.state:
             self.print_status()
 
             commands = input(
-                f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move, {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
-                + f'Commands will execute in succession, "{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}" then the player will {Input.MOVE_NORTH.description()} twice then {Input.MOVE_EAST.description()} once (if possible).\n'
+                f"Use {Input.MOVE_NORTH}{Input.MOVE_EAST}"
+                + f"{Input.MOVE_SOUTH}{Input.MOVE_WEST} to move,"
+                + " {Input.QUIT_GAME}/{Input.EXIT_GAME} to quit.\n"
+                + "Commands will execute in succession,"
+                + f'{Input.MOVE_NORTH.value}{Input.MOVE_NORTH.value}{Input.MOVE_EAST.value}"'
+                + f" then the player will {Input.MOVE_NORTH.description()}"
+                + f" twice then {Input.MOVE_EAST.description()} once (if possible).\n"
                 + f"{Input.SHOW_HELP.explanation()}.\n"
                 + "Your commands: "
             )
             commands = commands.casefold()
             print("--------------------------------------")
             print(f"Log from executing {commands}:")
-            for i in range(len(commands)):
+            for command in commands:
                 if self.state != GameState.ACTIVE:
                     break
-                command = commands[i]
 
                 matched = True
                 match command:
@@ -217,6 +212,8 @@ class Game:
                         matched = False
 
                 if matched:
+                    # This actually means that you can stand still for 25 turns.
+                    # And a new pickup will be spawned.
                     self.turn += 1
 
                 if self.turn % self.refresh_rate == 0:

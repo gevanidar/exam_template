@@ -1,14 +1,18 @@
+"""Module for testing the Player class."""
+
 import unittest
-from grid import Grid
-from unit import Unit
-from player import Player
-from item import Item
-from direction import Direction
+from ..grid import Grid
+from ..unit import Unit
+from ..player import Player
+from ..item import Item
+from ..direction import Direction
 
 
-class TestGrid(unittest.TestCase):
+class TestPlayer(unittest.TestCase):
+    """Player test class, used for testing player functionality."""
+
     def test_player_move_into_an_obstacle(self):
-        """Tests if a player can move into an obstacle"""
+        """Tests if a player can move into an obstacle."""
         player = Player(2, 1)
         g = Grid()
         x = 2
@@ -21,7 +25,7 @@ class TestGrid(unittest.TestCase):
         self.assertEqual(False, moved)
 
     def test_player_pickup_item(self):
-        """Test is player can pickup an item"""
+        """Test is player can pickup an item."""
         player = Player(2, 1)
         self.assertEqual(0, len(player.inventory.items))
         item = Item("carrot")
