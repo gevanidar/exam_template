@@ -1,4 +1,6 @@
-from unit import Unit
+"""A visual representation of an explosion in the game."""
+
+from .unit import Unit
 
 
 explosions = [

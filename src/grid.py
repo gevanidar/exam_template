@@ -80,7 +80,12 @@ class Grid:
             return
 
         for bomb in self.bombs:
+            bomb: Bomb = bomb
             bomb.tic()
+            print(
+                "Bomb fuse is burning. "
+                + f"Move away from the ({bomb.x},{bomb.y}) area.)"
+            )
 
     def explode_bomb(self):
         """Explode the bomb with the lowest time left (first in list)."""
@@ -107,8 +112,8 @@ class Grid:
         self.set(x, y, trap)
 
     def destroy(self, x, y, index):
-        """
-        Destoy any non-empty unit on the grid at position (x,y).
+        """Destoy any non-empty unit on the grid at position (x,y).
+
         x= The horizontal position.
         y= The vertical position.
         """
@@ -145,7 +150,7 @@ class Grid:
                     xs += f"{self.player}"
                 else:
                     for explosion in explosions:
-                        if data == explosion:
+                        if col == explosion:
                             self.data[y][x] = Unit.EMPTY
                     value = str(col.value)
                     for bomb in self.bombs:
